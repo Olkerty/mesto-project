@@ -1,0 +1,19 @@
+.popupform__container {
+  background-color: #FFF;
+  color: black;
+  box-sizing: border-box;
+  padding-left: 36px;
+  border-radius: 10px;
+  position: fixed;
+  width: calc(15.41vw + 232.66px);
+  height: 330px;
+  top: calc(7.5vw + 99px);
+  left: calc(42.3vw - 116.3px);
+}
+
+@media all and (max-width: 500px) {
+  .popupform__container {
+    padding-left: 22px;
+    height: 322px;
+  }
+}

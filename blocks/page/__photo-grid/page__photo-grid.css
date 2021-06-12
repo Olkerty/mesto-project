@@ -1,0 +1,12 @@
+.page__photo-grid {
+  margin: 0;
+  padding: 0;
+  margin-top: 47.25px;
+}
+
+@media all and (max-width:320px ) {
+  .page__photo-grid{
+    margin-top: 36px;
+  }
+}
+

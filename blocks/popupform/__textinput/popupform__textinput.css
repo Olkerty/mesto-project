@@ -1,0 +1,19 @@
+.popupform__textinput {
+  margin: 0;
+  padding: 0;
+  height: 14px;
+  border: 0;
+}
+
+.popupform__textinput::-webkit-input-placeholder {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0em;
+  color: #000;
+}
+
+

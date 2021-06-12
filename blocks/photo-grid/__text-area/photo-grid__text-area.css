@@ -1,0 +1,11 @@
+.photo-grid__text-area {
+  margin: 0;
+  padding: 0;
+  background-color: #FFF;
+  display: flex;
+  justify-content: flex-start;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  align-items: center;
+  height: 79px;
+}

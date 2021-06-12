@@ -1,0 +1,8 @@
+.popupform__textinputcontainer {
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  height: 84px;
+  width: calc(12.5vw + 198px);
+  margin-bottom: 48px;
+}

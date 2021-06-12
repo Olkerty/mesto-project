@@ -1,0 +1,16 @@
+.popupform__close-icon {
+  width: calc(2.06vw + 30.17px);
+  height: calc(2.06vw + 30.17px);
+  z-index: 2;
+  position: fixed;
+  top: calc(7.72vw + 47.92px);
+  left: calc(60.63vw + 70.58px);
+  background-image: url("../../../images/close icon.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.popupform__close-icon:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}

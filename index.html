@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./pages/index.css">
+  <title>Проект Место</title>
+</head>
+<body class="body">
+  <div class="page">
+    <form class="popupform popupform__ope">
+      <div class="popupform__close-icon"></div>
+      <div class="popupform__container">
+        <h2 class="popupform__header">Редактировать профиль</h2>
+        <div class="popupform__textinputcontainer">
+          <input type="text" class="popupform__textinput" placeholder="Жак-Ив-Кусто">
+          <div class="popupform__decorationline"></div>
+          <input type="text" class="popupform__textinput" placeholder="Исследователь океана">
+          <div class="popupform__decorationline"></div>
+        </div>
+        <div class="popupform__save-button">
+          <p class="popupform__save-buttontext">Сохранить </p>
+        </div>
+      </div>
+    </form>
+    <header class="header page__header">
+      <img src="./images/logo.svg" class="logo" alt="Место в России">
+    </header>
+    <main class="content">
+      <section class="profile">
+        <img src="./images/kusto.svg" class="profile__avatar" alt="Жак-Ив-Кусто">
+        <div class="profile__info">
+          <div class="profile__text">
+            <h1 class="profile__title">Жак-Ив-Кусто</h1>
+            <p class="profile__subtitle">Исследователь океана</p>
+          </div>
+          <img src="./images/edit button.svg" class="profile__edit-button" alt="Кнопка для для редактирования">
+        </div>
+        <div class="profile__add-button"></div>
+      </section>
+      <section class="photo-grid page__photo-grid">
+        <div class="photo-grid__item">
+          <img src="./images/karachevo-cherkesia.png" class="photo-grid__picture" alt="Вид из окна">
+          <div class="photo-grid__text-area">
+            <p class="photo-grid__text">Карачаевск</p>
+            <div class="photo-grid__like"> </div>
+          </div>
+        </div>
+        <div class="photo-grid__item">
+          <img src="./images/elbrus.png" class="photo-grid__picture" alt="Гора в облаках">
+          <div class="photo-grid__text-area">
+            <p class="photo-grid__text">Гора Эльбрус</p>
+            <div class="photo-grid__like"> </div>
+          </div>
+        </div>
+        <div class="photo-grid__item">
+          <img src="./images/dombai.png" class="photo-grid__picture" alt="Собака на сене">
+          <div class="photo-grid__text-area">
+            <p class="photo-grid__text">Домбай</p>
+            <div class="photo-grid__like"> </div>
+          </div>
+        </div>
+        <div class="photo-grid__item">
+          <img src="./images/elbrus.png" class="photo-grid__picture" alt="Горы в тумане">
+          <div class="photo-grid__text-area">
+            <p class="photo-grid__text">Гора Эльбрус</p>
+            <div class="photo-grid__like"> </div>
+          </div>
+        </div>
+        <div class="photo-grid__item">
+          <img src="./images/dombai.png" class="photo-grid__picture" alt="Колесо на льду">
+          <div class="photo-grid__text-area">
+            <p class="photo-grid__text">Домбай</p>
+            <div class="photo-grid__like"> </div>
+          </div>
+        </div>
+        <div class="photo-grid__item">
+          <img src="./images/karachevo-cherkesia.png" class="photo-grid__picture" alt="Гора и пляж">
+          <div class="photo-grid__text-area">
+            <p class="photo-grid__text">Карачаево-Черкессия</p>
+            <div class="photo-grid__like"> </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer page__footer">
+      <p class="footer__copyright">
+        © 2021. Mesto Russia
+      </p>
+    </footer>
+  </div>
+</body>
+</html>
