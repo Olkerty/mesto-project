@@ -4,11 +4,9 @@
   box-sizing: border-box;
   padding-left: 36px;
   border-radius: 10px;
-  position: fixed;
+  transform: translateY(calc(-1.03vw - 20.08px));
   width: calc(15.41vw + 232.66px);
-  height: 330px;
-  top: calc(7.5vw + 99px);
-  left: calc(42.3vw - 116.3px);
+  height: 330px; 
 }
 
 @media all and (max-width: 500px) {

@@ -1,8 +1,11 @@
 .popupform__save-button {
   background-color: #000000;
+  position: relative;
   border-radius: 2px;
   height: calc(0.416vw + 44.66px);
   width: calc(12.5vw + 198px);
+  padding-top: 14px;
+  box-sizing: border-box;
 }
 
 .popupform__save-button:hover {
