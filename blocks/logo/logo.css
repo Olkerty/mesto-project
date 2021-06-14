@@ -5,3 +5,10 @@
   height: 33px;
   margin-bottom: 41px;
 }
+
+@media all and (max-width: 320px){
+  .logo {
+    width: 103.74px;
+    height: 24.4px;
+  }
+}

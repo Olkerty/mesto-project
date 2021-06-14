@@ -1,12 +1,10 @@
 .profile__subtitle {
   margin: 0;
   padding: 0;
-  height: 18px;
-  font-family: Inter;
-  font-size: calc(1/240vw + 38/3px);
+  font-size: calc(0.416vw + 12.66px);
   font-style: normal;
   font-weight: 400;
-  line-height: calc(1/240vw + 47/3px);
+  line-height: calc(0.416vw + 15.66px);
   letter-spacing: 0em;
   text-align: left;
   margin-top: 16px;
@@ -15,5 +13,6 @@
 @media all and (max-width: 550px) {
 .profile__subtitle {
   margin-top: 14px;
+  text-align: center;
   }
 }

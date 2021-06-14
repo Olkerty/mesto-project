@@ -1,7 +1,6 @@
 .profile {
   position: relative;
   width: calc(62.3vw + 82.66px);
-  height: calc(-17.3vw + 341.33px);
   display: flex;
   flex-direction: row;
   margin-top: 36.25px;
@@ -11,19 +10,11 @@
   .profile {
     flex-direction: column;
     align-items: center;
-    height: 320px;
-  }
-}
-
-@media all and (max-width: 320px) {
-  .profile {
-    height: 286px;
   }
 }
 
 @media all and (min-width: 1280px) {
   .profile {
     max-width: 880px;
-    height: 120px;
   }
 }

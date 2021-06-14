@@ -5,6 +5,8 @@
   margin-right: 30px;
   width: 22px;
   height: 19px;
+  background-color: transparent;
+  border: 0;
   background-image: url("../../../images/like.svg");
   background-size: cover;
   background-repeat: no-repeat;

@@ -1,11 +1,16 @@
 .profile__title {
   margin: 0;
   padding: 0;
-  height: calc(13/960vw + 65/3px);
   font-size: calc(1.562vw + 22px);
   font-style: normal;
   font-weight: 500;
   line-height: calc(1.562vw + 28px);
   letter-spacing: 0em;
   text-align: left;
+}
+
+@media all and (max-width: 800px) {
+  .profile__title {
+    text-align:center;
+  }
 }

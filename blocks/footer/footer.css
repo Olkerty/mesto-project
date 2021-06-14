@@ -1,6 +1,5 @@
 .footer {
   width: calc(62.3vw + 82.66px);
-  height: 18px;
   margin-left: 0px;
 }
 
@@ -13,6 +12,5 @@
 @media all and (max-width:500px ) {
   .footer {
     width: 282px;
-    height: 14px;
   }
 }

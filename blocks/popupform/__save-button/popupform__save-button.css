@@ -4,11 +4,25 @@
   border-radius: 2px;
   height: calc(0.416vw + 44.66px);
   width: calc(12.5vw + 198px);
-  padding-top: 14px;
   box-sizing: border-box;
+  margin-bottom: 37px;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: white;
+}
+
+@media all and (max-width: 500px) {
+  .popupform__save-button {
+    font-size: 14px;
+    line-height: 17px;
+  }
 }
 
 .popupform__save-button:hover {
- opacity: 0.8;
- cursor: pointer;
+  opacity: 0.8;
+  cursor: pointer;
 }
