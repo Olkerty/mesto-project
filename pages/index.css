@@ -7,11 +7,10 @@
 @import url('../blocks/header/header.css');
 @import url('../blocks/popupform/popupform.css');
 @import url('../blocks/popupform/__header/popupform__header.css');
-@import url('../blocks/popupform/__textinputcontainer/popupform__textinputcontainer.css');
+@import url('../blocks/popupform/__form-itself/popupform__form-itself.css');
 @import url('../blocks/popupform/__textinput/popupform__textinput.css');
 @import url('../blocks/popupform/__save-button/popupform__save-button.css');
 @import url('../blocks/popupform/__container/popupform__container.css');
-@import url('../blocks/popupform/__save-buttontext/popupform__save-buttontext.css');
 @import url('../blocks/popupform/__close-icon/popupform__close-icon.css');
 @import url('../blocks/popupform/_opened/popupform_opened.css');
 @import url('../blocks/profile/profile.css');

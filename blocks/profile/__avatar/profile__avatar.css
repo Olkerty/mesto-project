@@ -9,6 +9,6 @@
 
 @media all and (max-width:800px) {
   .profile__avatar {
-    padding-right: 0;
+    margin-right: 0;
   }
 }

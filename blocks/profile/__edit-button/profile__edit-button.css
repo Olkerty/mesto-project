@@ -1,6 +1,6 @@
 .profile__edit-button {
-  width: calc(0.625vw + 16px);
-  height: calc(0.625vw + 16px);
+  width: calc(0.625vw + 16px); /*calc(0.625vw + 16px);*/
+  height: calc(0.625vw + 16px); /*calc(0.625vw + 16px);*/
   align-self: flex-start;
   justify-self: start;
   margin-top: 15px;
@@ -8,6 +8,8 @@
   background-color: transparent;
   border: 0;
   background-image: url("../../../images/edit-button.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 @media all and (max-width: 550px) {

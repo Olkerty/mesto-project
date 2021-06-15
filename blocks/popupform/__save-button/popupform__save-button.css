@@ -3,7 +3,7 @@
   position: relative;
   border-radius: 2px;
   height: calc(0.416vw + 44.66px);
-  width: calc(12.5vw + 198px);
+  width: 100%;/*calc(12.5vw + 198px);*/
   box-sizing: border-box;
   margin-bottom: 37px;
   font-size: 18px;
