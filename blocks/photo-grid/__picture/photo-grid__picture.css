@@ -6,3 +6,7 @@
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
 }
+
+.photo-grid__picture:hover {
+  cursor: pointer;
+}

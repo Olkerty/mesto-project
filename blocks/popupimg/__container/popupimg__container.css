@@ -1,0 +1,9 @@
+.popupimg__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  box-sizing: border-box;
+  transform: translateY(-calc(1.03vw + 15.08px+5px+7px));
+}

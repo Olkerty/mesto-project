@@ -8,13 +8,35 @@
 </head>
 <body class="body">
   <div class="page">
-    <section class="popupform popupform_opened">
+    <!--
+    <section class="popupimg popupimg_opened">
+      <div class="popupimg__container">
+        <button type="button" class="popupimg__close-icon"></button>
+        <img src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg" class="popupimg__image">
+        <p class="popupimg__text">texetexteetx</p>
+      </div>
+    </section>
+    -->
+    <section class="popupadd">
+      <button type="button" class="popupadd__close-icon"></button>
+      <div class="popupadd__container">
+        <h2 class="popupadd__header">Добавить картинку</h2>
+        <form class="popupadd__form-itself" name="profile-fields">
+          <input type="text" name="popupadd__image-name" class="popupadd__textinput" placeholder="">
+          <input type="text" name="popupadd__link" class="popupadd__textinput" placeholder="">
+          <button type="submit" class="popupadd__save-button">
+            Сохранить
+          </button>
+        </form>
+      </div>
+    </section>
+    <section class="popupform">
       <button type="button" class="popupform__close-icon"></button>
       <div class="popupform__container">
         <h2 class="popupform__header">Редактировать профиль</h2>
         <form class="popupform__form-itself" name="profile-fields">
-          <input type="text" name="pofile__name" class="popupform__textinput" placeholder="Жак-Ив-Кусто">
-          <input type="text" name="profile__profession" class="popupform__textinput" placeholder="Исследователь океана">
+          <input type="text" name="profile__name" class="popupform__textinput" placeholder="">
+          <input type="text" name="profile__profession" class="popupform__textinput" placeholder="">
           <button type="submit" class="popupform__save-button">
             Сохранить
           </button>
@@ -37,48 +59,50 @@
         <button type="button" aria-label="Close" class="profile__add-button"></button>
       </section>
       <section class="photo-grid page__photo-grid">
-        <div class="photo-grid__item">
-          <img src="./images/karachevo-cherkesia.png" class="photo-grid__picture" alt="Карачаево-черкесия">
-          <div class="photo-grid__text-area">
-            <h2 class="photo-grid__text">Карачаевск</h2>
-            <button type="button" aria-label="Close" class="photo-grid__like"> </button>
-          </div>
+        <!--
+      <div class="photo-grid__item">
+        <img src="./images/karachevo-cherkesia.png" class="photo-grid__picture" alt="Карачаево-черкесия">
+        <div class="photo-grid__text-area">
+          <h2 class="photo-grid__text">Карачаевск</h2>
+          <button type="button" aria-label="Close" class="photo-grid__like"> </button>
         </div>
-        <div class="photo-grid__item">
-          <img src="./images/elbrus.png" class="photo-grid__picture" alt="Эльбрус">
-          <div class="photo-grid__text-area">
-            <h2 class="photo-grid__text">Гора Эльбрус</h2>
-            <button type="button" aria-label="Close" class="photo-grid__like"> </button>
-          </div>
+      </div>
+      <div class="photo-grid__item">
+        <img src="./images/elbrus.png" class="photo-grid__picture" alt="Эльбрус">
+        <div class="photo-grid__text-area">
+          <h2 class="photo-grid__text">Гора Эльбрус</h2>
+          <button type="button" aria-label="Close" class="photo-grid__like"> </button>
         </div>
-        <div class="photo-grid__item">
-          <img src="./images/dombai.png" class="photo-grid__picture" alt="Домбай">
-          <div class="photo-grid__text-area">
-            <h2 class="photo-grid__text">Домбай</h2>
-            <button type="button" aria-label="Close" class="photo-grid__like"> </button>
-          </div>
+      </div>
+      <div class="photo-grid__item">
+        <img src="./images/dombai.png" class="photo-grid__picture" alt="Домбай">
+        <div class="photo-grid__text-area">
+          <h2 class="photo-grid__text">Домбай</h2>
+          <button type="button" aria-label="Close" class="photo-grid__like"> </button>
         </div>
-        <div class="photo-grid__item">
-          <img src="./images/elbrus.png" class="photo-grid__picture" alt="Гора Эльбрус">
-          <div class="photo-grid__text-area">
-            <h2 class="photo-grid__text">Гора Эльбрус</h2>
-            <button type="button" aria-label="Close" class="photo-grid__like"> </button>
-          </div>
+      </div>
+      <div class="photo-grid__item">
+        <img src="./images/elbrus.png" class="photo-grid__picture" alt="Гора Эльбрус">
+        <div class="photo-grid__text-area">
+          <h2 class="photo-grid__text">Гора Эльбрус</h2>
+          <button type="button" aria-label="Close" class="photo-grid__like"> </button>
         </div>
-        <div class="photo-grid__item">
-          <img src="./images/dombai.png" class="photo-grid__picture" alt="Домбай">
-          <div class="photo-grid__text-area">
-            <h2 class="photo-grid__text">Домбай</h2>
-            <button type="button" aria-label="Close" class="photo-grid__like"> </button>
-          </div>
+      </div>
+      <div class="photo-grid__item">
+        <img src="./images/dombai.png" class="photo-grid__picture" alt="Домбай">
+        <div class="photo-grid__text-area">
+          <h2 class="photo-grid__text">Домбай</h2>
+          <button type="button" aria-label="Close" class="photo-grid__like"> </button>
         </div>
-        <div class="photo-grid__item">
-          <img src="./images/karachevo-cherkesia.png" class="photo-grid__picture" alt="Карачаево-Черкесия">
-          <div class="photo-grid__text-area">
-            <h2 class="photo-grid__text">Карачаево-Черкессия</h2>
-            <button type="button" aria-label="Close" class="photo-grid__like"> </button>
-          </div>
+      </div>
+      <div class="photo-grid__item">
+        <img src="./images/karachevo-cherkesia.png" class="photo-grid__picture" alt="Карачаево-Черкесия">
+        <div class="photo-grid__text-area">
+          <h2 class="photo-grid__text">Карачаево-Черкессия</h2>
+          <button type="button" aria-label="Close" class="photo-grid__like"> </button>
         </div>
+      </div>
+      -->
       </section>
     </main>
     <footer class="footer page__footer">
@@ -87,5 +111,6 @@
       </p>
     </footer>
   </div>
+  <script src="script.js" charset="utf-8"></script>
 </body>
 </html>

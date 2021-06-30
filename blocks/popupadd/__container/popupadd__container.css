@@ -1,0 +1,17 @@
+.popupadd__container {
+  background-color: #FFF;
+  color: black;
+  box-sizing: border-box;
+  padding-left: 36px;
+  padding-right: 36px;
+  border-radius: 10px;
+  transform: translateY(calc(-1.03vw - 20.08px));
+  width: calc(15.41vw + 232.66px); 
+}
+
+@media all and (max-width: 500px) {
+  .popupadd__container {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+}
