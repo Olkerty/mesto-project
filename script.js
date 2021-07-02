@@ -3,8 +3,8 @@ let pageSelector = document.querySelector('.page');
 let editButton = document.querySelector('.profile__edit-button');
 let addButton = document.querySelector('.profile__add-button');
 let popUpForm = document.querySelector('.popupform');
-let popUpAdd = document.querySelector('.popupadd');
-let closeAddFormButton = document.querySelector('.popupadd__close-icon');
+let popUpAdd = document.querySelector('section[name = "popupadd"]');
+let closeAddFormButton = document.querySelector('button[name = "popupadd__close-icon"]');
 let closeEditFormButton = document.querySelector('.popupform__close-icon');
 let profileTitle = document.querySelector('.profile__title');
 let profileSubTitle = document.querySelector('.profile__subtitle');
@@ -13,8 +13,11 @@ let profileFormProfession = document.querySelector('input[name = "profile__profe
 let addFormName = document.querySelector(`input[name="popupadd__image-name"]`);
 let addFormLink = document.querySelector('input[name = "popupadd__link"]');
 let formItSelf = document.querySelector('.popupform__form-itself');
-let popUpAddForm = document.querySelector('.popupadd__form-itself');
+let popUpAddForm = document.querySelector(`form[name="popupadd__form-itself"]`);
 let photoGrid = document.querySelector('.photo-grid');
+let popUpPicture = document.querySelector(`section[name="popupform__picture"]`);
+let closeIcon = document.querySelector('.popupform__img-close-icon');
+
 let popUpImg;
 let tempVariable;
 function openPopUp() {
@@ -28,11 +31,11 @@ function closePopUp() {
 }
 
 function popUpAddOpen() {
-    popUpAdd.classList.add('popupadd_opened');
+    popUpAdd.classList.add('popupform_opened');
 }
 
 function popUpAddClose() {
-    popUpAdd.classList.remove('popupadd_opened');
+    popUpAdd.classList.remove('popupform_opened');
 }
 
 closeEditFormButton.addEventListener('click', closePopUp);
@@ -50,7 +53,7 @@ function deletePhotoGridElement() {
 }
 
 function hidePopUpImg() {
-    this.parentElement.parentElement.classList.remove('popupimg_opened');
+    popUpPicture.classList.remove('popupform_opened');
 }
 
 function submitAddForm(evt) {
@@ -112,12 +115,27 @@ function createPopUpImg(link, name) {
 }
 
 function openPopUpImg() {
-    this.parentElement.previousElementSibling.classList.add('popupimg_opened');
+    popUpPicture.classList.add('popupform_opened');
+    tempVariable = document.querySelector('img[name="popupform__image"]');
+    tempVariable.src = this.src;
+    tempVariable = popUpPicture.querySelector('p[name="popupform__text"]');
+    tempVariable.textContent = this.nextElementSibling.firstElementChild.textContent;
+
     //alert(this.parentElement);
     //console.log(this.parentElement.previousElementSibling);
 }
+let template = document.querySelector('#template');
 
-function addCard(name,link) {
+function addCard(name, link) {
+
+    let clone = template.content.cloneNode(true);
+    tempVariable = clone.querySelector('.photo-grid__picture');
+    tempVariable.src = link;
+    tempVariable.alt = name;
+    tempVariable = clone.querySelector('.photo-grid__text');
+    tempVariable.textContent = name;
+    photoGrid.prepend(clone);
+    /*
     photoGrid.insertAdjacentHTML('afterbegin',
         `<div class="photo-grid__item">
 <button type="button" aria-label="Close" class="photo-grid__delete"> </button>
@@ -127,16 +145,27 @@ function addCard(name,link) {
                     <button type="button" aria-label="Close" class="photo-grid__like"> </button>
                 </div>
         </div>`);
-    createPopUpImg(link, name);
-    tempVariable = document.querySelector(".photo-grid__like");
+        */
+    
     tempVariable = document.querySelector('.photo-grid__picture');
     tempVariable.addEventListener('click', openPopUpImg);
+    tempVariable = document.querySelector(".photo-grid__like");
     tempVariable.addEventListener('click', toLike);
     tempVariable = document.querySelector('.photo-grid__delete');
     tempVariable.addEventListener('click', deletePhotoGridElement);
 }
 
+
 for (let i = 0; i < Cards.length; i++) {
+
+    let clone = template.content.cloneNode(true);
+    tempVariable = clone.querySelector('.photo-grid__picture');
+    tempVariable.src = Cards[i].link;
+    tempVariable.alt = Cards[i].name;
+    tempVariable = clone.querySelector('.photo-grid__text');
+    tempVariable.textContent = Cards[i].name;
+    photoGrid.prepend(clone);
+    /*
     photoGrid.insertAdjacentHTML('afterbegin',
         `<div class="photo-grid__item">
 <button type="button" aria-label="Close" class="photo-grid__delete"> </button>
@@ -146,8 +175,7 @@ for (let i = 0; i < Cards.length; i++) {
                     <button type="button" aria-label="Close" class="photo-grid__like"> </button>
                 </div>
         </div>`);
-    console.log(Cards[i].name);
-    createPopUpImg(Cards[i].link, Cards[i].name);
+        */
     tempVariable = document.querySelector('.photo-grid__picture');
     tempVariable.addEventListener('click', openPopUpImg);
     tempVariable = document.querySelector(".photo-grid__like");
@@ -160,3 +188,4 @@ for (let i = 0; i < Cards.length; i++) {
 addButton.addEventListener('click', popUpAddOpen);
 closeAddFormButton.addEventListener('click', popUpAddClose);
 popUpAddForm.addEventListener('submit', submitAddForm);
+closeIcon.addEventListener('click', hidePopUpImg);

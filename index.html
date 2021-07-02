@@ -8,19 +8,7 @@
 </head>
 <body class="body">
   <div class="page">
-    <section class="popupadd">
-      <button type="button" class="popupadd__close-icon"></button>
-      <div class="popupadd__container">
-        <h2 class="popupadd__header">Добавить картинку</h2>
-        <form class="popupadd__form-itself" name="profile-fields">
-          <input type="text" name="popupadd__image-name" class="popupadd__textinput" placeholder="">
-          <input type="text" name="popupadd__link" class="popupadd__textinput" placeholder="">
-          <button type="submit" class="popupadd__save-button">
-            Сохранить
-          </button>
-        </form>
-      </div>
-    </section>
+
     <section class="popupform">
       <button type="button" class="popupform__close-icon"></button>
       <div class="popupform__container">
@@ -32,6 +20,26 @@
             Сохранить
           </button>
         </form>
+      </div>
+    </section>
+    <section class="popupform" name="popupadd">
+      <button type="button" class="popupform__close-icon" name="popupadd__close-icon"></button>
+      <div class="popupform__container" name="popupadd__container">
+        <h2 class="popupform__header" name="popupadd__header">Добавить картинку</h2>
+        <form class="popupform__form-itself" name="popupadd__form-itself">
+          <input type="text" name="popupadd__image-name" class="popupform__textinput" placeholder="">
+          <input type="text" name="popupadd__link" class="popupform__textinput" placeholder="">
+          <button type="submit" class="popupform__save-button" name="popupadd__save-button">
+            Сохранить
+          </button>
+        </form>
+      </div>
+    </section>
+    <section class="popupform" name="popupform__picture">
+      <div class="popupform__img-container">
+        <button type="button" class="popupform__img-close-icon"></button>
+        <img src="" class="popupform__image" name="popupform__image">
+        <p class="popupform__text" name="popupform__text"></p>
       </div>
     </section>
     <header class="header page__header">
@@ -50,7 +58,19 @@
         <button type="button" aria-label="Close" class="profile__add-button"></button>
       </section>
       <section class="photo-grid page__photo-grid">
-        <!--
+       
+          
+        <template id="template">
+          <div class="photo-grid__item">
+            <button type="button" aria-label="Close" class="photo-grid__delete"> </button>
+            <img class="photo-grid__picture" src="" alt="">
+            <div class="photo-grid__text-area">
+              <h2 class="photo-grid__text"></h2>
+              <button type="button" aria-label="Close" class="photo-grid__like"> </button>
+            </div>
+          </div>
+        </template>
+          <!--
       <div class="photo-grid__item">
         <img src="./images/karachevo-cherkesia.png" class="photo-grid__picture" alt="Карачаево-черкесия">
         <div class="photo-grid__text-area">

@@ -1,4 +1,4 @@
-.popupimg__close-icon {
+.popupform__img-close-icon {
   width: calc(2.06vw + 30.17px);
   height: calc(2.06vw + 30.17px);
   /*
@@ -15,13 +15,7 @@
   transform: translateX(calc(2.06vw + 30.17px));
 }
 
-@media all and (max-width: 400px) {
-  .popupimg__close-icon {
-    margin-left: calc(15.41vw + 232.66px - 1.458vw - 21.33px - 5px);
-  }
-}
-
-.popupimg__close-icon:hover {
+.popupform__img-close-icon:hover {
   opacity: 0.6;
   cursor: pointer;
 }
