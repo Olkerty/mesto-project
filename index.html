@@ -9,7 +9,44 @@
 <body class="body">
   <div class="page">
 
-    <section class="popupform">
+    <header class="header page__header">
+      <img src="./images/logo.svg" class="logo" alt="Место в России">
+    </header>
+    <main class="content">
+      <section class="profile">
+        <img src="./images/kusto.svg" class="profile__avatar" alt="Изображение пользователя">
+        <div class="profile__info">
+          <div class="profile__text">
+            <h1 class="profile__title">Жак-Ив-Кусто</h1>
+            <p class="profile__subtitle">Исследователь океана</p>
+          </div>
+          <button type="button" aria-label="Редактировать" class="profile__edit-button"></button>
+        </div>
+        <button type="button" aria-label="Добавить карточку" class="profile__add-button"></button>
+      </section>
+      <section class="photo-grid page__photo-grid">
+
+
+        <template id="template">
+          <div class="photo-grid__item">
+            <button type="button" aria-label="Удалить карточку" class="photo-grid__delete"> </button>
+            <img class="photo-grid__picture" src="" alt="">
+            <div class="photo-grid__text-area">
+              <h2 class="photo-grid__text"></h2>
+              <button type="button" aria-label="Оценить карточку" class="photo-grid__like"> </button>
+            </div>
+          </div>
+        </template>
+
+      </section>
+    </main>
+    <footer class="footer page__footer">
+      <p class="footer__copyright">
+        © 2021. Mesto Russia
+      </p>
+    </footer>
+
+    <div class="popupform">
       <button type="button" class="popupform__close-icon"></button>
       <div class="popupform__container">
         <h2 class="popupform__header">Редактировать профиль</h2>
@@ -21,107 +58,29 @@
           </button>
         </form>
       </div>
-    </section>
-    <section class="popupform" name="popupadd">
+    </div>
+    <div class="popupform" name="popupadd">
       <button type="button" class="popupform__close-icon" name="popupadd__close-icon"></button>
       <div class="popupform__container" name="popupadd__container">
-        <h2 class="popupform__header" name="popupadd__header">Добавить картинку</h2>
+        <h2 class="popupform__header" name="popupadd__header">Новое место</h2>
         <form class="popupform__form-itself" name="popupadd__form-itself">
-          <input type="text" name="popupadd__image-name" class="popupform__textinput" placeholder="">
-          <input type="text" name="popupadd__link" class="popupform__textinput" placeholder="">
+          <input type="text" name="popupadd__image-name" class="popupform__textinput" placeholder="Название" required>
+          <input type="url" name="popupadd__link" class="popupform__textinput" placeholder="Ссылка на картинку" required>
           <button type="submit" class="popupform__save-button" name="popupadd__save-button">
-            Сохранить
+            Создать
           </button>
         </form>
       </div>
-    </section>
-    <section class="popupform" name="popupform__picture">
+    </div>
+    <div class="popupform" name="popupform__picture">
       <div class="popupform__img-container">
         <button type="button" class="popupform__img-close-icon"></button>
-        <img src="" class="popupform__image" name="popupform__image">
+        <img src="" class="popupform__image" name="popupform__image" alt="">
         <p class="popupform__text" name="popupform__text"></p>
       </div>
-    </section>
-    <header class="header page__header">
-      <img src="./images/logo.svg" class="logo" alt="Место в России">
-    </header>
-    <main class="content">
-      <section class="profile">
-        <img src="./images/kusto.svg" class="profile__avatar" alt="Жак-Ив-Кусто">
-        <div class="profile__info">
-          <div class="profile__text">
-            <h1 class="profile__title">Жак-Ив-Кусто</h1>
-            <p class="profile__subtitle">Исследователь океана</p>
-          </div>
-          <button type="button" aria-label="Close" class="profile__edit-button"></button>
-        </div>
-        <button type="button" aria-label="Close" class="profile__add-button"></button>
-      </section>
-      <section class="photo-grid page__photo-grid">
-       
-          
-        <template id="template">
-          <div class="photo-grid__item">
-            <button type="button" aria-label="Close" class="photo-grid__delete"> </button>
-            <img class="photo-grid__picture" src="" alt="">
-            <div class="photo-grid__text-area">
-              <h2 class="photo-grid__text"></h2>
-              <button type="button" aria-label="Close" class="photo-grid__like"> </button>
-            </div>
-          </div>
-        </template>
-          <!--
-      <div class="photo-grid__item">
-        <img src="./images/karachevo-cherkesia.png" class="photo-grid__picture" alt="Карачаево-черкесия">
-        <div class="photo-grid__text-area">
-          <h2 class="photo-grid__text">Карачаевск</h2>
-          <button type="button" aria-label="Close" class="photo-grid__like"> </button>
-        </div>
-      </div>
-      <div class="photo-grid__item">
-        <img src="./images/elbrus.png" class="photo-grid__picture" alt="Эльбрус">
-        <div class="photo-grid__text-area">
-          <h2 class="photo-grid__text">Гора Эльбрус</h2>
-          <button type="button" aria-label="Close" class="photo-grid__like"> </button>
-        </div>
-      </div>
-      <div class="photo-grid__item">
-        <img src="./images/dombai.png" class="photo-grid__picture" alt="Домбай">
-        <div class="photo-grid__text-area">
-          <h2 class="photo-grid__text">Домбай</h2>
-          <button type="button" aria-label="Close" class="photo-grid__like"> </button>
-        </div>
-      </div>
-      <div class="photo-grid__item">
-        <img src="./images/elbrus.png" class="photo-grid__picture" alt="Гора Эльбрус">
-        <div class="photo-grid__text-area">
-          <h2 class="photo-grid__text">Гора Эльбрус</h2>
-          <button type="button" aria-label="Close" class="photo-grid__like"> </button>
-        </div>
-      </div>
-      <div class="photo-grid__item">
-        <img src="./images/dombai.png" class="photo-grid__picture" alt="Домбай">
-        <div class="photo-grid__text-area">
-          <h2 class="photo-grid__text">Домбай</h2>
-          <button type="button" aria-label="Close" class="photo-grid__like"> </button>
-        </div>
-      </div>
-      <div class="photo-grid__item">
-        <img src="./images/karachevo-cherkesia.png" class="photo-grid__picture" alt="Карачаево-Черкесия">
-        <div class="photo-grid__text-area">
-          <h2 class="photo-grid__text">Карачаево-Черкессия</h2>
-          <button type="button" aria-label="Close" class="photo-grid__like"> </button>
-        </div>
-      </div>
-      -->
-      </section>
-    </main>
-    <footer class="footer page__footer">
-      <p class="footer__copyright">
-        © 2021. Mesto Russia
-      </p>
-    </footer>
+    </div>
   </div>
+  <script src="scripts/сards.js"></script>
   <script src="script.js" charset="utf-8"></script>
 </body>
 </html>
