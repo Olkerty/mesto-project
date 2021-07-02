@@ -17,27 +17,10 @@
 @import url('../blocks/popupform/__container/popupform__container.css');
 @import url('../blocks/popupform/__close-icon/popupform__close-icon.css');
 @import url('../blocks/popupform/_opened/popupform_opened.css');
-/*
-@import url('../blocks/popupimg/popupimg.css');
-@import url('../blocks/popupimg/__image/popupimg__image.css');
-@import url('../blocks/popupimg/__text/popupimg__text.css');
-@import url('../blocks/popupimg/__container/popupimg__container.css');
-@import url('../blocks/popupimg/__close-icon/popupimg__close-icon.css');
-@import url('../blocks/popupimg/_opened/popupimg_opened.css');
-@import url('../blocks/popupadd/popupadd.css');
-@import url('../blocks/popupadd/__header/popupadd__header.css');
-@import url('../blocks/popupadd/__form-itself/popupadd__form-itself.css');
-@import url('../blocks/popupadd/__textinput/popupadd__textinput.css');
-@import url('../blocks/popupadd/__save-button/popupadd__save-button.css');
-@import url('../blocks/popupadd/__container/popupadd__container.css');
-@import url('../blocks/popupadd/__close-icon/popupadd__close-icon.css');
-@import url('../blocks/popupadd/_opened/popupadd_opened.css');
-  */
 @import url('../blocks/profile/profile.css');
 @import url('../blocks/profile/__add-button/profile__add-button.css');
 @import url('../blocks/profile/__avatar/profile__avatar.css');
 @import url('../blocks/profile/__info/profile__info.css');
-@import url('../blocks/profile/__text/profile__text.css');
 @import url('../blocks/profile/__edit-button/profile__edit-button.css');
 @import url('../blocks/profile/__subtitle/profile__subtitle.css');
 @import url('../blocks/profile/__title/profile__title.css');
