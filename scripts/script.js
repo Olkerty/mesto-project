@@ -24,7 +24,6 @@ let pictureOnCard = document.querySelector('.photo-grid__picture');
 let clone = template.content.cloneNode(true);
 let textOnCard = clone.querySelector('.photo-grid__text');
 
-let popUpImg;
 let tempVariable;
 
 const cards = [
@@ -70,7 +69,7 @@ function submitEditProfileForm(evt) {
     evt.preventDefault();
     profileTitle.textContent = profileFormName.value;
     profileSubTitle.textContent = profileFormProfession.value;
-    this.classList.remove('popupform_opened');
+    closePopUp.bind(this)();
 }
 
 function deletePhotoGridElement() {
@@ -81,18 +80,18 @@ function submitAddForm(evt) {
     evt.preventDefault();
     addCard(addFormName.value, addFormLink.value);
     popUpAddForm.reset();
-    this.classList.remove('popupform_opened');
+    closePopUp.bind(this)();
 }
 
 function switchLikeIcon() {
     this.classList.toggle('photo-grid__like_liked');
 }
 
-function insertParameters() {
+function insertParameters(name,link) {
     tempVariable = document.querySelector('img[name="popupform__image"]');
-    tempVariable.src = this.src;
+    tempVariable.src = link;
     tempVariable = popUpPicture.querySelector('p[name="popupform__text"]');
-    tempVariable.textContent = this.nextElementSibling.firstElementChild.textContent;
+    tempVariable.textContent = name;
 }
 
 function createCard(name,link) {
@@ -101,7 +100,7 @@ function createCard(name,link) {
     pictureOnCard.src = link;
     pictureOnCard.alt = name;
     pictureOnCard.addEventListener('click', openPopUp.bind(popUpPicture));
-    pictureOnCard.addEventListener('click', insertParameters);
+    pictureOnCard.addEventListener('click', insertParameters(name,link));
     textOnCard = clone.querySelector('.photo-grid__text');
     textOnCard.textContent = name;
     likeButton = clone.querySelector(".photo-grid__like");

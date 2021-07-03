@@ -6,7 +6,7 @@
   right: 15px;
   background-color: transparent;
   border: 0;
-  background-image: url("../../../images/trash.svg");
+  background-image: url("../../../images/Trash.svg");
 }
 
 .photo-grid__delete:hover {
