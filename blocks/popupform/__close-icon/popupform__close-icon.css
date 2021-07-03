@@ -14,7 +14,7 @@
   position: fixed;
   top: calc(7.72vw + 47.92px);
   left: calc(60.63vw + 70.58px);*/
-  background-image: url("../../../images/close-icon.svg");
+  background-image: url("../../../images/Close-Icon.svg");
   background-size: cover;
   background-repeat: no-repeat;
 }
