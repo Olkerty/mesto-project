@@ -90,6 +90,7 @@ function switchLikeIcon() {
 function insertParameters(name,link) {
     tempVariable = document.querySelector('img[name="popupform__image"]');
     tempVariable.src = link;
+    tempVariable.alt = name;
     tempVariable = popUpPicture.querySelector('p[name="popupform__text"]');
     tempVariable.textContent = name;
 }
