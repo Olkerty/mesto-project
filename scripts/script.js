@@ -89,10 +89,10 @@ function switchLikeIcon() {
 
 function insertParameters(name, link) {
     tempVariable = popUpPicture.querySelector('img[name="popupform__image"]');
-    tempVariable.src = name;
-    tempVariable.alt = link.toElement.alt;
+    tempVariable.src = link;
+    tempVariable.alt = name; 
     tempVariable = popUpPicture.querySelector('p[name="popupform__text"]');
-    tempVariable.textContent = link.toElement.alt;
+    tempVariable.textContent = name;
 }
 
 function createCard(name,link) {
@@ -101,7 +101,7 @@ function createCard(name,link) {
     pictureOnCard.src = link;
     pictureOnCard.alt = name;
     pictureOnCard.addEventListener('click', openPopUp.bind(popUpPicture));
-    pictureOnCard.addEventListener('click', insertParameters.bind(name, link));
+    pictureOnCard.addEventListener('click', () => insertParameters(name, link));
     textOnCard = clone.querySelector('.photo-grid__text');
     textOnCard.textContent = name;
     likeButton = clone.querySelector(".photo-grid__like");
