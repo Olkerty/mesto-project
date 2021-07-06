@@ -5,7 +5,7 @@
   height: 50px;
   background-color: transparent;
   border: 0;
-  background-image: url("../../../images/add-button.svg");
+  background-image: url("../../../images/Add-Button.svg");
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -14,7 +14,7 @@
   .profile__add-button {
     width: 284px;
     margin-left: initial;
-    background-image: url("../../../images/add-buttonbig.svg");
+    background-image: url("../../../images/Add-Buttonbig.svg");
   }
 }
 

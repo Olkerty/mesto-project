@@ -11,8 +11,8 @@
 }
 
 @media all and (max-width: 550px) {
-.profile__subtitle {
-  margin-top: 14px;
-  text-align: center;
+  .profile__subtitle {
+    margin-top: 14px;
+    text-align: center;
   }
 }
