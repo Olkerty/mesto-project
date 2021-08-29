@@ -1,19 +1,22 @@
 ﻿<!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./pages/index.css">
+
+  <!--<link rel="stylesheet" href="./pages/index.css"> -->
   <title>Проект Место</title>
 </head>
+
 <body class="body">
   <div class="page">
     <header class="header page__header">
-      <img src="./images/logo.svg" class="logo" alt="Место в России">
+      <img src="<%=require('./images/logo.svg')%>" alt="Логотип" class="logo">
     </header>
     <main class="content">
       <section class="profile">
-        <img src="./images/kusto.svg" class="profile__avatar" alt="Изображение пользователя">
+        <img src="<%=require('./images/kusto.svg')%>" class="profile__avatar" alt="Изображение пользователя">
         <div class="profile__info">
           <div class="profile__text">
             <h1 class="profile__title">Жак-Ив-Кусто</h1>
@@ -41,13 +44,17 @@
         © 2021. Mesto Russia
       </p>
     </footer>
-    <div class="popupform">
+    <div class="popupform" name="popupform">
       <button type="button" class="popupform__close-icon"></button>
       <div class="popupform__container">
         <h2 class="popupform__header">Редактировать профиль</h2>
         <form class="popupform__form-itself" name="profile-fields">
-          <input type="text" name="profile__name" class="popupform__textinput" placeholder="">
-          <input type="text" name="profile__profession" class="popupform__textinput" placeholder="">
+          <input type="text" name="profile__name" class="popupform__textinput" id="popupform__name" placeholder="Имя"
+            required minlength="2" maxlength="40">
+          <span class="popupform__name-error"></span>
+          <input type="text" name="profile__profession" class="popupform__textinput" id="popupform__profession"
+            placeholder="О себе" required minlength="2" maxlength="200">
+          <span class="popupform__profession-error"></span>
           <button type="submit" class="popupform__save-button">
             Сохранить
           </button>
@@ -59,8 +66,12 @@
       <div class="popupform__container" name="popupadd__container">
         <h2 class="popupform__header" name="popupadd__header">Новое место</h2>
         <form class="popupform__form-itself" name="popupadd__form-itself">
-          <input type="text" name="popupadd__image-name" class="popupform__textinput" placeholder="Название" required>
-          <input type="url" name="popupadd__link" class="popupform__textinput" placeholder="Ссылка на картинку" required>
+          <input type="text" name="popupadd__image-name" class="popupform__textinput" placeholder="Название" required
+            id="popupform__image-name" maxlength='30' minlength="2">
+          <span class="popupform__image-name-error"></span>
+          <input type="url" name="popupadd__link" class="popupform__textinput" placeholder="Ссылка на картинку" required
+            id="popupform__link">
+          <span class="popupform__link-error"></span>
           <button type="submit" class="popupform__save-button" name="popupadd__save-button">
             Создать
           </button>
@@ -68,13 +79,17 @@
       </div>
     </div>
     <div class="popupform" name="popupform__picture">
-      <div class="popupform__img-container">
+      <div class="popupform__container popupform__img-container">
         <button type="button" class="popupform__img-close-icon"></button>
         <img src="" class="popupform__image" name="popupform__image" alt="">
         <p class="popupform__text" name="popupform__text"></p>
       </div>
     </div>
   </div>
-  <script src="scripts/script.js" charset="utf-8"></script>
+  <!--
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+  <script src="scripts/script.js" charset="utf-8"></script>-->
 </body>
+
 </html>
