@@ -1,22 +1,32 @@
 @import url('../vendor/normalize.css');
+
 @import url('../fonts/fonts.css');
+
 @import url('../blocks/content/content.css');
+
 @import url('../blocks/body/body.css');
+
 @import url('../blocks/footer/__copyright/footer__copyright.css');
 @import url('../blocks/footer/footer.css');
+
 @import url('../blocks/header/header.css');
+
 @import url('../blocks/popupform/popupform.css');
 @import url('../blocks/popupform/__img-close-icon/popupform__img-close-icon.css');
-@import url('../blocks/popupform/__img-container/popupform__img-container.css');
 @import url('../blocks/popupform/__text/popupform__text.css');
 @import url('../blocks/popupform/__image/popupform__image.css');
 @import url('../blocks/popupform/__header/popupform__header.css');
 @import url('../blocks/popupform/__form-itself/popupform__form-itself.css');
 @import url('../blocks/popupform/__textinput/popupform__textinput.css');
 @import url('../blocks/popupform/__save-button/popupform__save-button.css');
+@import url('../blocks/popupform/__save-button/popupform__save-button_inactive.css');
 @import url('../blocks/popupform/__container/popupform__container.css');
 @import url('../blocks/popupform/__close-icon/popupform__close-icon.css');
 @import url('../blocks/popupform/_opened/popupform_opened.css');
+@import url('../blocks/popupform/__input-error_active/popupform__input-error_active.css');
+@import url('../blocks/popupform/__input-type_error/popupform__input-type_error.css');
+@import url('../blocks/popupform/__img-container/popupform__img-container.css');
+
 @import url('../blocks/profile/profile.css');
 @import url('../blocks/profile/__add-button/profile__add-button.css');
 @import url('../blocks/profile/__avatar/profile__avatar.css');
@@ -24,11 +34,14 @@
 @import url('../blocks/profile/__edit-button/profile__edit-button.css');
 @import url('../blocks/profile/__subtitle/profile__subtitle.css');
 @import url('../blocks/profile/__title/profile__title.css');
+
 @import url('../blocks/logo/logo.css');
 @import url('../blocks/page/page.css');
+
 @import url('../blocks/page/__header/page__header.css');
 @import url('../blocks/page/__photo-grid/page__photo-grid.css');
 @import url('../blocks/page/__footer/page__footer.css');
+
 @import url('../blocks/photo-grid/__item/photo-grid__item.css');
 @import url('../blocks/photo-grid/__picture/photo-grid__picture.css');
 @import url('../blocks/photo-grid/__text-area/photo-grid__text-area.css');
