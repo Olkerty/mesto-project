@@ -16,7 +16,9 @@
     </header>
     <main class="content">
       <section class="profile">
-        <img src="<%=require('./images/kusto.svg')%>" class="profile__avatar" alt="Изображение пользователя">
+        <div class="profile__img-container">
+          <img src="<%=require('./images/kusto.svg')%>" class="profile__avatar" alt="Изображение пользователя">
+        </div>
         <div class="profile__info">
           <div class="profile__text">
             <h1 class="profile__title">Жак-Ив-Кусто</h1>
@@ -86,6 +88,18 @@
         <button type="button" class="popupform__img-close-icon"></button>
         <img src="" class="popupform__image" name="popupform__image" alt="">
         <p class="popupform__text" name="popupform__text"></p>
+      </div>
+    </div>
+    <div class="popupform" name="popupform__avatar-redact">
+      <div class="popupform__container">
+        <form class=" popupform__form-itself" name="popupadd__form-itself">
+          <input type="url" name="popupadd__link" class="popupform__textinput" placeholder="Ссылка на картинку" required
+            id="popupform__link">
+          <span class="popupform__link-error"></span>
+          <button type="submit" class="popupform__save-button" name="popupadd__save-button">
+            Сохранить
+          </button>
+        </form>
       </div>
     </div>
   </div>

@@ -45,9 +45,10 @@ function deletePhotoGridElement() {
 
 function switchLikeIcon(button, cardId) {
 	console.log(button);
-	console.log(cardId);
+	console.log(!Array.from(button.classList).includes('photo-grid__like_liked'));
 	button.classList.toggle('photo-grid__like_liked');
-	if (!Array.from(button.classList).includes('photo-grid__like_liked')) {
+	let countElement = button.parentElement.querySelector('.photo-grid__like-count');
+	if (Array.from(button.classList).includes('photo-grid__like_liked')) {
 		fetch(`https://nomoreparties.co/v1/plus-cohort-1/cards/likes/${cardId}`, {
 			method: 'PUT',
 			headers: {
@@ -55,9 +56,9 @@ function switchLikeIcon(button, cardId) {
 				'Content-Type': 'application/json'
 			}
 		});
-		console.log('NO');
-		console.log(button.nextSibling.textContent);
-		//this.nextSibling.textContent = +this.nextSibling.textContent + 1;
+		//console.log('NO');
+		//console.log(button.nextSibling.textContent);
+		countElement.textContent = +countElement.textContent + 1;
 	} else {
 		fetch(`https://nomoreparties.co/v1/plus-cohort-1/cards/likes/${cardId}`, {
 			method: 'DELETE',
@@ -66,9 +67,9 @@ function switchLikeIcon(button, cardId) {
 				'Content-Type': 'application/json'
 			}
 		});
-		console.log('YES');
-		console.log(button.nextSibling.textContent);
-		//this.nextSibling.textContent = +this.nextSibling.textContent - 1;
+		//console.log('YES');
+		//console.log(button.nextSibling.textContent);
+		countElement.textContent = +countElement.textContent - 1;
 	}
 }
 
@@ -90,7 +91,7 @@ function createCard(name, link, likesCount, isLiked, cardId) {
 	textOnCard = clone.querySelector('.photo-grid__text');
 	textOnCard.textContent = name;
 	likeButton = clone.querySelector(".photo-grid__like");
-	//	likeButton.addEventListener('click', switchLikeIcon(likeButton, cardId));
+	likeButton.addEventListener('click', () => switchLikeIcon(event.target, cardId));
 	if (isLiked) {
 		likeButton.classList.add('photo-grid__like_liked');
 	}

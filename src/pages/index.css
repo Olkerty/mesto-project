@@ -52,3 +52,14 @@
 @import url('../blocks/photo-grid/__like-count/photo-grid__like-count.css');
 @import url('../blocks/photo-grid/__like-container/photo-grid__like-container.css');
 @import url('../blocks/photo-grid/photo-grid.css');
+
+.profile__img-container{
+	margin-right: 30px;
+}
+
+.profile__img-container:hover {
+	z-index: 2;
+  background-image: url('../images/pencil.svg');
+  background-color: rgba(0,0,0,0.8);
+  cursor: pointer;
+}
