@@ -1,0 +1,6 @@
+.popupform__save-button_inactive {
+	border: 1px solid #000000;
+	color: #000000;
+	background-color: white;
+	opacity: 0.8;
+}
