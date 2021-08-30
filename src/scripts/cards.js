@@ -37,13 +37,39 @@ let textOnCard = clone.querySelector('.photo-grid__text');
 let likeButton = document.querySelector(".photo-grid__like");
 let deleteButton = document.querySelector('.photo-grid__delete');
 let pictureOnCard = document.querySelector('.photo-grid__picture');
+let likesAmount = document.querySelector('.photo-grid__like-count');
 
 function deletePhotoGridElement() {
 	this.closest('.photo-grid__item').remove();
 }
 
-function switchLikeIcon() {
-	this.classList.toggle('photo-grid__like_liked');
+function switchLikeIcon(button, cardId) {
+	console.log(button);
+	console.log(cardId);
+	button.classList.toggle('photo-grid__like_liked');
+	if (!Array.from(button.classList).includes('photo-grid__like_liked')) {
+		fetch(`https://nomoreparties.co/v1/plus-cohort-1/cards/likes/${cardId}`, {
+			method: 'PUT',
+			headers: {
+				authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
+				'Content-Type': 'application/json'
+			}
+		});
+		console.log('NO');
+		console.log(button.nextSibling.textContent);
+		//this.nextSibling.textContent = +this.nextSibling.textContent + 1;
+	} else {
+		fetch(`https://nomoreparties.co/v1/plus-cohort-1/cards/likes/${cardId}`, {
+			method: 'DELETE',
+			headers: {
+				authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
+				'Content-Type': 'application/json'
+			}
+		});
+		console.log('YES');
+		console.log(button.nextSibling.textContent);
+		//this.nextSibling.textContent = +this.nextSibling.textContent - 1;
+	}
 }
 
 function insertParameters(name, link) {
@@ -54,7 +80,7 @@ function insertParameters(name, link) {
 	tempVariable.textContent = name;
 }
 
-function createCard(name, link) {
+function createCard(name, link, likesCount, isLiked, cardId) {
 	clone = template.content.cloneNode(true);
 	pictureOnCard = clone.querySelector('.photo-grid__picture');
 	pictureOnCard.src = link;
@@ -64,12 +90,17 @@ function createCard(name, link) {
 	textOnCard = clone.querySelector('.photo-grid__text');
 	textOnCard.textContent = name;
 	likeButton = clone.querySelector(".photo-grid__like");
-	likeButton.addEventListener('click', switchLikeIcon);
+	//	likeButton.addEventListener('click', switchLikeIcon(likeButton, cardId));
+	if (isLiked) {
+		likeButton.classList.add('photo-grid__like_liked');
+	}
+	likesAmount = clone.querySelector('.photo-grid__like-count');
+	likesAmount.textContent = likesCount;
 	deleteButton = clone.querySelector('.photo-grid__delete');
 	deleteButton.addEventListener('click', deletePhotoGridElement);
 }
 
-export function addCard(name, link) {
-	createCard(name, link);
+export function addCard(name, link, likesAmount, isLiked, cardId) {
+	createCard(name, link, likesAmount, isLiked, cardId);
 	photoGrid.prepend(clone);
 }

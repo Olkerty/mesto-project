@@ -49,4 +49,6 @@
 @import url('../blocks/photo-grid/__like/photo-grid__like.css');
 @import url('../blocks/photo-grid/__delete/photo-grid__delete.css');
 @import url('../blocks/photo-grid/__like/_liked/photo-grid__like_liked.css');
+@import url('../blocks/photo-grid/__like-count/photo-grid__like-count.css');
+@import url('../blocks/photo-grid/__like-container/photo-grid__like-container.css');
 @import url('../blocks/photo-grid/photo-grid.css');
