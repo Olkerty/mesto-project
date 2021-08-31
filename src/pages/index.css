@@ -53,13 +53,28 @@
 @import url('../blocks/photo-grid/__like-container/photo-grid__like-container.css');
 @import url('../blocks/photo-grid/photo-grid.css');
 
+.profile__hover-mask{
+	display: none;
+  width: 120px;
+  height: 120px;
+	position: absolute;
+	background-position: 50px 50px;
+	background-image: url('../images/pencil.svg');
+	background-repeat: no-repeat;
+	z-index: 10;
+  background-color: rgba(0,0,0,0.8);
+}
+
+.profile__hover-mask_visible {
+  display: block;
+}
+
 .profile__img-container{
+	position: relative;
 	margin-right: 30px;
 }
 
 .profile__img-container:hover {
 	z-index: 2;
-  background-image: url('../images/pencil.svg');
-  background-color: rgba(0,0,0,0.8);
   cursor: pointer;
 }

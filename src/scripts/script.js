@@ -11,6 +11,7 @@ import { openPopUp, closePopUp, fillPopUp, submitAddForm, submitEditProfileForm,
 const profileTitle = document.querySelector('.profile__title');
 const profileSubTitle = document.querySelector('.profile__subtitle');
 const profileAvatar = document.querySelector('.profile__avatar');
+const profileHoverMask = document.querySelector('.profile__hover-mask');
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
 const popUpEditProfileForm = document.querySelector('.popupform');
@@ -31,6 +32,12 @@ Array.from(document.querySelectorAll('.popupform__container')).forEach(function 
     }
   });
 });
+profileAvatar.addEventListener('mouseover', function (event) {
+  document.querySelector('.profile__hover-mask').classList.add('profile__hover-mask_visible');
+});
+profileHoverMask.addEventListener('mouseout', function (event) {
+  document.querySelector('.profile__hover-mask').classList.remove('profile__hover-mask_visible');
+});
 
 editProfileFormItSelf.addEventListener('submit', submitEditProfileForm.bind(popUpEditProfileForm));
 closeEditFormButton.addEventListener('click', closePopUp.bind(popUpEditProfileForm));
@@ -40,7 +47,7 @@ addButton.addEventListener('click', openPopUp.bind(popUpAdd));
 closeAddFormButton.addEventListener('click', closePopUp.bind(popUpAdd));
 popUpAddForm.addEventListener('submit', submitAddForm.bind(popUpAdd));
 closeIcon.addEventListener('click', closePopUp.bind(popUpPicture));
-profileAvatar.addEventListener('click', openPopUp.bind(popUpRedProfileAvatar));
+profileHoverMask.addEventListener('click', openPopUp.bind(popUpRedProfileAvatar));
 
 enableValidation({
   submitButtonSelector: 'popupform__save-button',
@@ -51,7 +58,7 @@ enableValidation({
 
 fetch('https://nomoreparties.co/v1/plus-cohort-1/users/me', {
   headers: {
-    authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c'
+    authorization: "18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c"
   }
 })
   .then(res => res.json())
@@ -59,12 +66,12 @@ fetch('https://nomoreparties.co/v1/plus-cohort-1/users/me', {
     // console.log(result);
     profileTitle.textContent = result.name;
     profileSubTitle.textContent = result.about;
-    profileAvatar.src = result.avatar;
+    //profileAvatar.src = result.avatar;
   });
 
 fetch('https://nomoreparties.co/v1/plus-cohort-1/cards', {
   headers: {
-    authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c'
+    authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
   }
 })
   .then((res) => {
@@ -87,4 +94,15 @@ fetch('https://nomoreparties.co/v1/plus-cohort-1/cards', {
       //console.log((result[i].likes).includes(result[i].owner));
       addCard(result[i].name, result[i].link, result[i].likes.length, isLiked, result[i]._id);
     }
+  });
+fetch('https://nomoreparties.co/v1/plus-cohort-01/users/me', {
+  headers: {
+    authorization: "18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c",
+  }
+})
+  .then((res) => {
+    return res.json();
+  })
+  .then((data) => {
+    return console.log(data);
   });

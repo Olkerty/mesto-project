@@ -17,6 +17,7 @@
     <main class="content">
       <section class="profile">
         <div class="profile__img-container">
+          <div class="profile__hover-mask"></div>
           <img src="<%=require('./images/kusto.svg')%>" class="profile__avatar" alt="Изображение пользователя">
         </div>
         <div class="profile__info">
@@ -92,9 +93,11 @@
     </div>
     <div class="popupform" name="popupform__avatar-redact">
       <div class="popupform__container">
+        <button type="button" class="popupform__edit-image-close-icon"></button>
+        <h2 class="popupform__header">Обновить аватар</h2>
         <form class=" popupform__form-itself" name="popupadd__form-itself">
-          <input type="url" name="popupadd__link" class="popupform__textinput" placeholder="Ссылка на картинку" required
-            id="popupform__link">
+          <input type="url" name="popupadd__link" class="popupform__textinput popupform__edit-image"
+            placeholder="Ссылка на картинку" required id="popupform__link">
           <span class="popupform__link-error"></span>
           <button type="submit" class="popupform__save-button" name="popupadd__save-button">
             Сохранить
