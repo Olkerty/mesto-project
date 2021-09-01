@@ -9,36 +9,45 @@ const profileFormName = document.querySelector(`input[name='profile__name']`);
 const profileFormProfession = document.querySelector('input[name = "profile__profession"]');
 export const popUpAddForm = document.querySelector(`form[name="popupadd__form-itself"]`);
 
-export function openPopUp() {
-	this.classList.add("popupform_opened");
-	const tempVar = this;
-	document.addEventListener('keydown', function closePopUpEscape(event) {
-		if (event.key == 'Escape') {
-			tempVar.classList.remove('popupform_opened');
-		}
-	});
+function closePopUpEscape(event, popup) {
+	if (event.key == 'Escape') {
+		closePopUp(popup);
+	}
 }
 
-export function fillPopUp() {
-	profileFormName.value = profileTitle.textContent;
-	profileFormProfession.value = profileSubTitle.textContent;
+export function openPopUp(popup) {
+	popup.classList.add("popupform_opened");
+	document.addEventListener('keydown', () => closePopUpEscape(event, popup));
 }
 
-export function closePopUp() {
-	this.classList.remove('popupform_opened');
+export function closePopUp(popup) {
+	popup.classList.remove('popupform_opened');
 	document.removeEventListener('keydown', closePopUpEscape);
 }
 
-export function submitEditProfileForm(evt) {
+export function openAvatarPopUp(popup) {
+	profileFormName.value = profileTitle.textContent;
+	profileFormProfession.value = profileSubTitle.textContent;
+	openPopUp(popup);
+}
+
+export function submitEditProfileForm(evt, popup) {
 	evt.preventDefault();
 	profileTitle.textContent = profileFormName.value;
 	profileSubTitle.textContent = profileFormProfession.value;
-	closePopUp.bind(this)();
+	closePopUp(popup);
 }
 
-export function submitAddForm(evt) {
+export function submitAddForm(evt, popup, inactiveButtonClass) {
 	evt.preventDefault();
-	addCard(addFormName.value, addFormLink.value);
+	const card = {
+		name: addFormName.value,
+		link: addFormLink.value
+	}
+	addCard(card);
 	popUpAddForm.reset();
-	closePopUp.bind(this)();
+	let submitButton = popup.querySelector('.popupform__save-button');
+	submitButton.classList.add(inactiveButtonClass);
+	submitButton.disabled = true;
+	closePopUp(popup);
 }
