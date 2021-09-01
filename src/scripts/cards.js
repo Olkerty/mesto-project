@@ -35,12 +35,19 @@ let tempVariable;
 let clone = template.content.cloneNode(true);
 let textOnCard = clone.querySelector('.photo-grid__text');
 let likeButton = document.querySelector(".photo-grid__like");
-let deleteButton = document.querySelector('.photo-grid__delete');
+let deleteButton;
 let pictureOnCard = document.querySelector('.photo-grid__picture');
 let likesAmount = document.querySelector('.photo-grid__like-count');
 
-function deletePhotoGridElement() {
-	this.closest('.photo-grid__item').remove();
+function deletePhotoGridElement(cardId, button) {
+	fetch(`https://nomoreparties.co/v1/plus-cohort-1/cards/${cardId}`, {
+		method: 'DELETE',
+		headers: {
+			authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
+			'Content-Type': 'application/json'
+		},
+	});
+	button.parentElement.remove();
 }
 
 function switchLikeIcon(button, cardId) {
@@ -81,7 +88,7 @@ function insertParameters(name, link) {
 	tempVariable.textContent = name;
 }
 
-function createCard(name, link, likesCount, isLiked, cardId) {
+function createCard(name, link, likesCount, isLiked, cardIsMine, cardId) {
 	clone = template.content.cloneNode(true);
 	pictureOnCard = clone.querySelector('.photo-grid__picture');
 	pictureOnCard.src = link;
@@ -97,11 +104,14 @@ function createCard(name, link, likesCount, isLiked, cardId) {
 	}
 	likesAmount = clone.querySelector('.photo-grid__like-count');
 	likesAmount.textContent = likesCount;
-	deleteButton = clone.querySelector('.photo-grid__delete');
-	deleteButton.addEventListener('click', deletePhotoGridElement);
+	if (cardIsMine) {
+		deleteButton = clone.querySelector('.photo-grid__delete');
+		deleteButton.style.display = 'block';
+		deleteButton.addEventListener('click', () => deletePhotoGridElement(cardId, event.target));
+	}
 }
 
-export function addCard(name, link, likesAmount, isLiked, cardId) {
-	createCard(name, link, likesAmount, isLiked, cardId);
-	photoGrid.prepend(clone);
+export function addCard(name, link, likesAmount, isLiked, cardId, cardIsMine) {
+	createCard(name, link, likesAmount, isLiked, cardId, cardIsMine);
+	photoGrid.append(clone);
 }
