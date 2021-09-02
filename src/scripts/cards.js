@@ -13,11 +13,11 @@ function switchLikeIcon() {
 
 function insertParameters(popUp, card) {
 	openPopUp(popUp);
-	let tempVariable = popUpPicture.querySelector('img[name="popupform__image"]');
-	tempVariable.src = card.link;
-	tempVariable.alt = card.name;
-	tempVariable = popUpPicture.querySelector('p[name="popupform__text"]');
-	tempVariable.textContent = card.ame;
+	const image = popUpPicture.querySelector('img[name="popupform__image"]');
+	image.src = card.link;
+	image.alt = card.name;
+	const text = popUpPicture.querySelector('p[name="popupform__text"]');
+	text.textContent = card.ame;
 }
 
 function createCard(card) {
