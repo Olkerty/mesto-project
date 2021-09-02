@@ -9,15 +9,15 @@ const profileFormName = document.querySelector(`input[name='profile__name']`);
 const profileFormProfession = document.querySelector('input[name = "profile__profession"]');
 export const popUpAddForm = document.querySelector(`form[name="popupadd__form-itself"]`);
 
-function closePopUpEscape(event, popup) {
+function closePopUpEscape(event) {
 	if (event.key == 'Escape') {
-		closePopUp(popup);
+		closePopUp(document.querySelector('.popupform_opened'));
 	}
 }
 
 export function openPopUp(popup) {
 	popup.classList.add("popupform_opened");
-	document.addEventListener('keydown', () => closePopUpEscape(event, popup));
+	document.addEventListener('keydown', closePopUpEscape);
 }
 
 export function closePopUp(popup) {
@@ -46,7 +46,7 @@ export function submitAddForm(evt, popup, inactiveButtonClass) {
 	}
 	addCard(card);
 	popUpAddForm.reset();
-	let submitButton = popup.querySelector('.popupform__save-button');
+	const submitButton = popup.querySelector('.popupform__save-button');
 	submitButton.classList.add(inactiveButtonClass);
 	submitButton.disabled = true;
 	closePopUp(popup);
