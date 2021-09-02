@@ -18,6 +18,14 @@ const closeEditFormButton = document.querySelector('.popupform__close-icon');
 const editProfileFormItSelf = document.querySelector('.popupform__form-itself');
 const imagePopUpCloseIcon = document.querySelector('.popupform__img-close-icon');
 
+const validationParameters = {
+  submitButtonSelector: 'popupform__save-button',
+  inactiveButtonClass: 'popupform__save-button_inactive',
+  inputErrorClass: 'popupform__input-type_error',
+  errorClass: 'popupform__input-error_active'
+}
+
+
 cards.forEach(function (item) {
   addCard(item)
 });
@@ -35,12 +43,7 @@ closeEditFormButton.addEventListener('click', () => closePopUp(popUpEditProfileF
 editButton.addEventListener('click', () => openAvatarPopUp(popUpEditProfileForm), false);
 addButton.addEventListener('click', () => openPopUp(popUpAdd));
 closeAddFormButton.addEventListener('click', () => closePopUp(popUpAdd));
-popUpAddForm.addEventListener('submit', () => submitAddForm(event, popUpAdd, 'popupform__save-button_inactive'));
+popUpAddForm.addEventListener('submit', () => submitAddForm(event, popUpAdd, validationParameters.inactiveButtonClass));
 imagePopUpCloseIcon.addEventListener('click', () => closePopUp(popUpPicture));
 
-enableValidation({
-  submitButtonSelector: 'popupform__save-button',
-  inactiveButtonClass: 'popupform__save-button_inactive',
-  inputErrorClass: 'popupform__input-type_error',
-  errorClass: 'popupform__input-error_active'
-});
+enableValidation(validationParameters);
