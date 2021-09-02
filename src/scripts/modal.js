@@ -1,6 +1,6 @@
 ﻿import { addCard } from "./cards";
 
-import { profileAvatar } from "./script";
+import { profileAvatar, profileAvatarPopUp } from "./script";
 
 export const popUpPicture = document.querySelector(`div[name="popupform__picture"]`);
 const addFormName = document.querySelector(`input[name="popupadd__image-name"]`);
@@ -12,29 +12,37 @@ const profileFormName = document.querySelector(`input[name='profile__name']`);
 const profileFormProfession = document.querySelector('input[name = "profile__profession"]');
 export const popUpAddForm = document.querySelector(`form[name="popupadd__form-itself"]`);
 
-function closePopUpEscape(event) {
+function closePopUpEscape(event, popup) {
 	if (event.key == 'Escape') {
-		this.classList.remove('popupform_opened');
+		popup.classList.remove('popupform_opened');
 	}
 }
 
-export function openPopUp() {
-	this.classList.add("popupform_opened");
-	document.addEventListener('keydown', closePopUpEscape.bind(this));
+function changeText(text, container) {
+	const submitButton = container.querySelector('.popupform__save-button');
+	submitButton.textContent = '';
+	submitButton.textContent = text;
 }
 
-export function fillPopUp() {
+export function openPopUp(popup) {
+	popup.classList.add("popupform_opened");
+	document.addEventListener('keydown', () => closePopUpEscape(event, popup));
+}
+
+export function openAddPopUp(popup) {
 	profileFormName.value = profileTitle.textContent;
 	profileFormProfession.value = profileSubTitle.textContent;
+	openPopUp(popup);
 }
 
-export function closePopUp() {
-	this.classList.remove('popupform_opened');
-	document.removeEventListener('keydown', closePopUpEscape);
+export function closePopUp(popup) {
+	popup.classList.remove('popupform_opened');
+	document.removeEventListener('keydown', closePopUpEscape(event, popup));
 }
 
-export function submitEditProfileForm(evt) {
+export function submitEditProfileForm(evt, popup) {
 	evt.preventDefault();
+	changeText('Сохранение...', popup);
 	profileTitle.textContent = profileFormName.value;
 	profileSubTitle.textContent = profileFormProfession.value;
 	fetch('https://nomoreparties.co/v1/plus-cohort-1/users/me', {
@@ -47,12 +55,17 @@ export function submitEditProfileForm(evt) {
 			name: profileFormName.value,
 			about: profileFormProfession.value
 		})
-	});
-	closePopUp.bind(this)();
+	})
+		.catch((err) => {
+			console.log(err);
+		});
+	closePopUp(popup);
+	changeText('Сохранить', popup);
 }
 
-export function submitAddForm(evt) {
+export function submitAddForm(evt, popup) {
 	evt.preventDefault();
+	changeText('Создание...', popup);
 	fetch('https://nomoreparties.co/v1/plus-cohort-1/cards', {
 		method: 'POST',
 		headers: {
@@ -64,17 +77,32 @@ export function submitAddForm(evt) {
 			link: addFormLink.value
 		})
 	})
-		.then(res => res.json())
+		.then(res => {
+			if (res.ok) {
+				return res.json();
+			}
+
+			// если ошибка, отклоняем промис
+			return Promise.reject(`Ошибка: ${res.status}`);
+		})
 		.then((ret) => {
 			console.log(ret);
-			addCard(ret.name, ret.link, 0, false, true, ret._id);
+			addCard(ret, false, true);
+		})
+		.catch((err) => {
+			console.log(err);
 		});
 	popUpAddForm.reset();
-	closePopUp.bind(this)();
+	const submitButton = popup.querySelector('.popupform__save-button');
+	submitButton.classList.add('popupform__save-button_inactive');
+	submitButton.disabled = true;
+	closePopUp(popup);
+	changeText('Создать', popup);
 }
 
-export function submitEditAvatarForm(evt) {
+export function submitEditAvatarForm(evt, popup) {
 	evt.preventDefault();
+	changeText('Сохранение...', popup);
 	fetch('https://nomoreparties.co/v1/plus-cohort-1/users/me/avatar', {
 		method: 'PATCH',
 		headers: {
@@ -84,8 +112,12 @@ export function submitEditAvatarForm(evt) {
 		body: JSON.stringify({
 			avatar: profileAvatarInput.value,
 		})
-	});
+	})
+		.catch((err) => {
+			console.log(err);
+		});
 	profileAvatar.src = profileAvatarInput.value;
-
-	closePopUp.bind(this)();
+	profileAvatarPopUp.reset();
+	closePopUp(popup);
+	changeText('Сохранить', popup);
 }

@@ -3,9 +3,9 @@ import '../pages/index.css';
 
 import { enableValidation } from './validate';
 
-import { addCard, cards } from './cards';
+import { addCard } from './cards';
 
-import { openPopUp, closePopUp, fillPopUp, submitAddForm, submitEditProfileForm, popUpPicture, popUpAddForm, submitEditAvatarForm } from './modal';
+import { openPopUp, closePopUp, openAddPopUp, submitAddForm, submitEditProfileForm, popUpPicture, popUpAddForm, submitEditAvatarForm } from './modal';
 
 
 const profileTitle = document.querySelector('.profile__title');
@@ -21,10 +21,9 @@ const closeAddFormButton = document.querySelector('button[name = "popupadd__clos
 const closeEditFormButton = document.querySelector('.popupform__close-icon');
 const editProfileFormItSelf = document.querySelector('.popupform__form-itself');
 const closeIcon = document.querySelector('.popupform__img-close-icon');
-const profileAvatarPopUp = document.querySelector('form[name= "popup__avatar-redact-form-itself"]');
+export const profileAvatarPopUp = document.querySelector('form[name= "popup__avatar-redact-form-itself"]');
 
-let isLiked = false;
-let cardIsMine = false;
+
 let myId = '571dcf6f2cfcc0fecc4eba60';
 
 Array.from(document.querySelectorAll('.popupform__container')).forEach(function (container) {
@@ -41,16 +40,15 @@ profileHoverMask.addEventListener('mouseout', function (event) {
   document.querySelector('.profile__hover-mask').classList.remove('profile__hover-mask_visible');
 });
 
-editProfileFormItSelf.addEventListener('submit', submitEditProfileForm.bind(popUpEditProfileForm));
-closeEditFormButton.addEventListener('click', closePopUp.bind(popUpEditProfileForm));
-editButton.addEventListener('click', openPopUp.bind(popUpEditProfileForm), false);
-editButton.addEventListener('click', fillPopUp);
-addButton.addEventListener('click', openPopUp.bind(popUpAdd));
-closeAddFormButton.addEventListener('click', closePopUp.bind(popUpAdd));
-popUpAddForm.addEventListener('submit', submitAddForm.bind(popUpAdd));
-closeIcon.addEventListener('click', closePopUp.bind(popUpPicture));
-profileHoverMask.addEventListener('click', openPopUp.bind(popUpRedProfileAvatar));
-profileAvatarPopUp.addEventListener('submit', submitEditAvatarForm.bind(popUpRedProfileAvatar));
+editProfileFormItSelf.addEventListener('submit', () => submitEditProfileForm(event, popUpEditProfileForm));
+closeEditFormButton.addEventListener('click', () => closePopUp(popUpEditProfileForm));
+editButton.addEventListener('click', () => openAddPopUp(popUpEditProfileForm), false);
+addButton.addEventListener('click', () => openPopUp(popUpAdd));
+closeAddFormButton.addEventListener('click', () => closePopUp(popUpAdd));
+popUpAddForm.addEventListener('submit', () => submitAddForm(event, popUpAdd));
+closeIcon.addEventListener('click', () => closePopUp(popUpPicture));
+profileHoverMask.addEventListener('click', () => openPopUp(popUpRedProfileAvatar));
+profileAvatarPopUp.addEventListener('submit', () => submitEditAvatarForm(event, popUpRedProfileAvatar));
 
 enableValidation({
   submitButtonSelector: 'popupform__save-button',
@@ -64,13 +62,23 @@ fetch('https://nomoreparties.co/v1/plus-cohort-1/users/me', {
     authorization: "18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c"
   }
 })
-  .then(res => res.json())
+  .then(res => {
+    if (res.ok) {
+      return res.json();
+    }
+
+    // если ошибка, отклоняем промис
+    return Promise.reject(`Ошибка: ${res.status}`);
+  })
   .then((result) => {
     //console.log(result);
-    myId = result._id;
+    //myId = result._id;
     profileTitle.textContent = result.name;
     profileSubTitle.textContent = result.about;
     profileAvatar.src = result.avatar;
+  })
+  .catch((err) => {
+    console.log(err);
   });
 
 fetch('https://nomoreparties.co/v1/plus-cohort-1/cards', {
@@ -78,18 +86,27 @@ fetch('https://nomoreparties.co/v1/plus-cohort-1/cards', {
     authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
   }
 })
-  .then((res) => {
-    return res.json();
+  .then(res => {
+    if (res.ok) {
+      return res.json();
+    }
+
+    // если ошибка, отклоняем промис
+    return Promise.reject(`Ошибка: ${res.status}`);
   })
   .then((result) => {
+    let isLiked = false;
+    let cardIsMine = false;
     for (let i = result.length - 1; i >= 0; i--) {
       isLiked = false;
       cardIsMine = false;
-      console.log(result);
+      //console.log(result[i].likes);
       //console.log('etewt');
       //console.log(result[i].owner._id);
       result[i].likes.forEach(function (item) {
-        if (item._id == result[i].owner._id) {
+        //console.log(item._id);
+        //console.log(result[i].owner._id);
+        if (item._id == myId) {
           isLiked = true;
         }
       });
@@ -98,6 +115,10 @@ fetch('https://nomoreparties.co/v1/plus-cohort-1/cards', {
       }
       //console.log(result[i].likes[0]);
       //console.log((result[i].likes).includes(result[i].owner));
-      addCard(result[i].name, result[i].link, result[i].likes.length, isLiked, cardIsMine, result[i]._id);
+      //console.log(isLiked);
+      addCard(result[i], isLiked, cardIsMine);
     }
+  })
+  .catch((err) => {
+    console.log(err);
   });

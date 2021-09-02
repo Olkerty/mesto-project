@@ -1,4 +1,4 @@
-﻿import { openPopUp, popUpPicture } from "./modal";
+﻿import { closePopUp, openPopUp, popUpPicture } from "./modal";
 
 
 export const cards = [
@@ -30,31 +30,15 @@ export const cards = [
 
 const template = document.querySelector('#template');
 const photoGrid = document.querySelector('.photo-grid');
+const deletePopUp = document.querySelector('div[name="popupform__affirm"]');
 
-let tempVariable;
-let clone = template.content.cloneNode(true);
-let textOnCard = clone.querySelector('.photo-grid__text');
-let likeButton = document.querySelector(".photo-grid__like");
-let deleteButton;
-let pictureOnCard = document.querySelector('.photo-grid__picture');
-let likesAmount = document.querySelector('.photo-grid__like-count');
 
-function deletePhotoGridElement(cardId, button) {
-	fetch(`https://nomoreparties.co/v1/plus-cohort-1/cards/${cardId}`, {
-		method: 'DELETE',
-		headers: {
-			authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
-			'Content-Type': 'application/json'
-		},
-	});
-	button.parentElement.remove();
-}
 
 function switchLikeIcon(button, cardId) {
-	console.log(button);
-	console.log(!Array.from(button.classList).includes('photo-grid__like_liked'));
+	//console.log(button);
+	//console.log(!Array.from(button.classList).includes('photo-grid__like_liked'));
 	button.classList.toggle('photo-grid__like_liked');
-	let countElement = button.parentElement.querySelector('.photo-grid__like-count');
+	const countElement = button.parentElement.querySelector('.photo-grid__like-count');
 	if (Array.from(button.classList).includes('photo-grid__like_liked')) {
 		fetch(`https://nomoreparties.co/v1/plus-cohort-1/cards/likes/${cardId}`, {
 			method: 'PUT',
@@ -62,7 +46,10 @@ function switchLikeIcon(button, cardId) {
 				authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
 				'Content-Type': 'application/json'
 			}
-		});
+		})
+			.catch((err) => {
+				console.log(err);
+			});
 		//console.log('NO');
 		//console.log(button.nextSibling.textContent);
 		countElement.textContent = +countElement.textContent + 1;
@@ -73,45 +60,68 @@ function switchLikeIcon(button, cardId) {
 				authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
 				'Content-Type': 'application/json'
 			}
-		});
+		})
+			.catch((err) => {
+				console.log(err);
+			});
 		//console.log('YES');
 		//console.log(button.nextSibling.textContent);
 		countElement.textContent = +countElement.textContent - 1;
 	}
 }
 
-function insertParameters(name, link) {
-	tempVariable = popUpPicture.querySelector('img[name="popupform__image"]');
-	tempVariable.src = link;
-	tempVariable.alt = name;
+function insertParameters(popup, card) {
+	openPopUp(popup);
+	let tempVariable = popUpPicture.querySelector('img[name="popupform__image"]');
+	tempVariable.src = card.link;
+	tempVariable.alt = card.name;
 	tempVariable = popUpPicture.querySelector('p[name="popupform__text"]');
-	tempVariable.textContent = name;
+	tempVariable.textContent = card.name;
 }
 
-function createCard(name, link, likesCount, isLiked, cardIsMine, cardId) {
-	clone = template.content.cloneNode(true);
-	pictureOnCard = clone.querySelector('.photo-grid__picture');
-	pictureOnCard.src = link;
-	pictureOnCard.alt = name;
-	pictureOnCard.addEventListener('click', openPopUp.bind(popUpPicture));
-	pictureOnCard.addEventListener('click', () => insertParameters(name, link));
-	textOnCard = clone.querySelector('.photo-grid__text');
-	textOnCard.textContent = name;
-	likeButton = clone.querySelector(".photo-grid__like");
-	likeButton.addEventListener('click', () => switchLikeIcon(event.target, cardId));
+function createCard(card, isLiked, cardIsMine) {
+	let clone = template.content.cloneNode(true);
+	const pictureOnCard = clone.querySelector('.photo-grid__picture');
+	pictureOnCard.src = card.link;
+	pictureOnCard.alt = card.name;
+	//pictureOnCard.addEventListener('click', openPopUp.bind(popUpPicture));
+	pictureOnCard.addEventListener('click', () => insertParameters(popUpPicture, card));
+	const textOnCard = clone.querySelector('.photo-grid__text');
+	textOnCard.textContent = card.name;
+	const likeButton = clone.querySelector(".photo-grid__like");
+	likeButton.addEventListener('click', () => switchLikeIcon(event.target, card._id));
 	if (isLiked) {
 		likeButton.classList.add('photo-grid__like_liked');
 	}
-	likesAmount = clone.querySelector('.photo-grid__like-count');
-	likesAmount.textContent = likesCount;
+	const likesAmount = clone.querySelector('.photo-grid__like-count');
+	likesAmount.textContent = card.likes.length;
 	if (cardIsMine) {
-		deleteButton = clone.querySelector('.photo-grid__delete');
+		const deleteButton = clone.querySelector('.photo-grid__delete');
 		deleteButton.style.display = 'block';
-		deleteButton.addEventListener('click', () => deletePhotoGridElement(cardId, event.target));
+		deleteButton.addEventListener('click', () => showDeletePopUp(card._id, event.target));
 	}
+	return clone;
 }
 
-export function addCard(name, link, likesAmount, isLiked, cardId, cardIsMine) {
-	createCard(name, link, likesAmount, isLiked, cardId, cardIsMine);
-	photoGrid.append(clone);
+function showDeletePopUp(cardId, eventTarget) {
+	openPopUp(deletePopUp);
+	const affirmButton = deletePopUp.querySelector('.popupform__save-button');
+	affirmButton.addEventListener('click', () => deletePhotoGridElement(cardId, eventTarget, affirmButton));
+}
+
+function deletePhotoGridElement(cardId, deleteButton, affirmButton) {
+	fetch(`https://nomoreparties.co/v1/plus-cohort-1/cards/${cardId}`, {
+		method: 'DELETE',
+		headers: {
+			authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
+			'Content-Type': 'application/json'
+		},
+	});
+	affirmButton.removeEventListener('click', () => deletePhotoGridElement(cardId, eventTarget, affirmButton));
+	deleteButton.closest('.photo-grid__item').remove();
+	closePopUp(deletePopUp);
+}
+
+export function addCard(card, isLiked, cardIsMine) {
+	photoGrid.append(createCard(card, isLiked, cardIsMine));
 }

@@ -29,29 +29,31 @@ function hasInvalidInput(inputList) {
 function toggleButtonState(inputList, button, inactiveButtonClass) {
 	if (hasInvalidInput(inputList)) {
 		button.classList.add(inactiveButtonClass);
+		button.disabled = true;
 	} else {
 		button.classList.remove(inactiveButtonClass);
+		button.disabled = false;
 	}
 }
 
-function setEventListeners(form, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass) {
-	let inputList = Array.from(form.getElementsByTagName('input'));
-	let submitButton = form.querySelector(`.${submitButtonSelector}`);
-	toggleButtonState(inputList, submitButton, inactiveButtonClass);
+function setEventListeners(form, parameters) {
+	const inputList = Array.from(form.getElementsByTagName('input'));
+	const submitButton = form.querySelector(`.${parameters.submitButtonSelector}`);
+	toggleButtonState(inputList, submitButton, parameters.inactiveButtonClass);
 	inputList.forEach(function (item) {
 		item.addEventListener('input', function () {
-			checkInputValidity(form, item, inputErrorClass, errorClass);
-			toggleButtonState(inputList, submitButton, inactiveButtonClass);
+			checkInputValidity(form, item, parameters.inputErrorClass, parameters.errorClass);
+			toggleButtonState(inputList, submitButton, parameters.inactiveButtonClass);
 		});
 	});
 }
 
 export function enableValidation(parameters) {
-	let formList = Array.from(document.forms);
+	const formList = Array.from(document.forms);
 	formList.forEach(function (form) {
 		form.addEventListener('submit', function (evt) {
 			evt.preventDefault();
 		});
-		setEventListeners(form, parameters.submitButtonSelector, parameters.inactiveButtonClass, parameters.inputErrorClass, parameters.errorClass);
+		setEventListeners(form, parameters);
 	});
 }
