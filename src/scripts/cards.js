@@ -1,38 +1,8 @@
-﻿import { closePopUp, openPopUp, popUpPicture } from "./modal";
-
-
-export const cards = [
-	{
-		name: 'Архыз',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-	},
-	{
-		name: 'Челябинская область',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-	},
-	{
-		name: 'Иваново',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-	},
-	{
-		name: 'Камчатка',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-	},
-	{
-		name: 'Холмогорский район',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-	},
-	{
-		name: 'Байкал',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-	}
-];
+import { closePopUp, openPopUp, popUpPicture } from "./modal";
 
 const template = document.querySelector('#template');
 const photoGrid = document.querySelector('.photo-grid');
 const deletePopUp = document.querySelector('div[name="popupform__affirm"]');
-
-
 
 function switchLikeIcon(button, cardId) {
 	//console.log(button);
@@ -80,7 +50,7 @@ function insertParameters(popup, card) {
 }
 
 function createCard(card, isLiked, cardIsMine) {
-	let clone = template.content.cloneNode(true);
+	const clone = template.content.cloneNode(true);
 	const pictureOnCard = clone.querySelector('.photo-grid__picture');
 	pictureOnCard.src = card.link;
 	pictureOnCard.alt = card.name;

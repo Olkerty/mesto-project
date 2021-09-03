@@ -31,6 +31,7 @@ function toggleButtonState(inputList, button, inactiveButtonClass) {
 		button.classList.add(inactiveButtonClass);
 		button.disabled = true;
 	} else {
+		button.disabled = false;
 		button.classList.remove(inactiveButtonClass);
 		button.disabled = false;
 	}

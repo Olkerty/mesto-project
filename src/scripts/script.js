@@ -5,8 +5,10 @@ import { enableValidation } from './validate';
 
 import { addCard } from './cards';
 
-import { openPopUp, closePopUp, openAddPopUp, submitAddForm, submitEditProfileForm, popUpPicture, popUpAddForm, submitEditAvatarForm } from './modal';
 
+import { openPopUp, closePopUp, openAvatarPopUp, submitAddForm, submitEditProfileForm, popUpPicture, popUpAddForm, submitEditAvatarForm } from './modal';
+
+//import { cards } from './initial-cards';
 
 const profileTitle = document.querySelector('.profile__title');
 const profileSubTitle = document.querySelector('.profile__subtitle');
@@ -20,16 +22,28 @@ const popUpRedProfileAvatar = document.querySelector('div[name = "popupform__ava
 const closeAddFormButton = document.querySelector('button[name = "popupadd__close-icon"]');
 const closeEditFormButton = document.querySelector('.popupform__close-icon');
 const editProfileFormItSelf = document.querySelector('.popupform__form-itself');
-const closeIcon = document.querySelector('.popupform__img-close-icon');
 export const profileAvatarPopUp = document.querySelector('form[name= "popup__avatar-redact-form-itself"]');
 
 
 let myId = '571dcf6f2cfcc0fecc4eba60';
+const imagePopUpCloseIcon = document.querySelector('.popupform__img-close-icon');
+
+const validationParameters = {
+  submitButtonSelector: 'popupform__save-button',
+  inactiveButtonClass: 'popupform__save-button_inactive',
+  inputErrorClass: 'popupform__input-type_error',
+  errorClass: 'popupform__input-error_active'
+}
+
+
+cards.forEach(function (item) {
+  addCard(item)
+});
 
 Array.from(document.querySelectorAll('.popupform__container')).forEach(function (container) {
   document.addEventListener('mouseup', function (event) {
     if (event.target != container && !container.contains(event.target)) {
-      container.parentElement.classList.remove('popupform_opened');
+      closePopUp(container.closest('.popupform'));
     }
   });
 });
@@ -42,20 +56,9 @@ profileHoverMask.addEventListener('mouseout', function (event) {
 
 editProfileFormItSelf.addEventListener('submit', () => submitEditProfileForm(event, popUpEditProfileForm));
 closeEditFormButton.addEventListener('click', () => closePopUp(popUpEditProfileForm));
-editButton.addEventListener('click', () => openAddPopUp(popUpEditProfileForm), false);
-addButton.addEventListener('click', () => openPopUp(popUpAdd));
 closeAddFormButton.addEventListener('click', () => closePopUp(popUpAdd));
-popUpAddForm.addEventListener('submit', () => submitAddForm(event, popUpAdd));
-closeIcon.addEventListener('click', () => closePopUp(popUpPicture));
 profileHoverMask.addEventListener('click', () => openPopUp(popUpRedProfileAvatar));
 profileAvatarPopUp.addEventListener('submit', () => submitEditAvatarForm(event, popUpRedProfileAvatar));
-
-enableValidation({
-  submitButtonSelector: 'popupform__save-button',
-  inactiveButtonClass: 'popupform__save-button_inactive',
-  inputErrorClass: 'popupform__input-type_error',
-  errorClass: 'popupform__input-error_active'
-});
 
 fetch('https://nomoreparties.co/v1/plus-cohort-1/users/me', {
   headers: {
@@ -122,3 +125,11 @@ fetch('https://nomoreparties.co/v1/plus-cohort-1/cards', {
   .catch((err) => {
     console.log(err);
   });
+imagePopUpCloseIcon.addEventListener('click', () => closePopUp(popUpPicture));
+
+enableValidation(validationParameters);
+editButton.addEventListener('click', () => openAvatarPopUp(popUpEditProfileForm), false);
+addButton.addEventListener('click', () => openPopUp(popUpAdd));
+closeAddFormButton.addEventListener('click', () => closePopUp(popUpAdd));
+popUpAddForm.addEventListener('submit', () => submitAddForm(event, popUpAdd, validationParameters.inactiveButtonClass));
+

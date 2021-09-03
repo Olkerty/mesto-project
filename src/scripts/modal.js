@@ -12,21 +12,11 @@ const profileFormName = document.querySelector(`input[name='profile__name']`);
 const profileFormProfession = document.querySelector('input[name = "profile__profession"]');
 export const popUpAddForm = document.querySelector(`form[name="popupadd__form-itself"]`);
 
-function closePopUpEscape(event, popup) {
-	if (event.key == 'Escape') {
-		popup.classList.remove('popupform_opened');
-	}
-}
 
 function changeText(text, container) {
 	const submitButton = container.querySelector('.popupform__save-button');
 	submitButton.textContent = '';
 	submitButton.textContent = text;
-}
-
-export function openPopUp(popup) {
-	popup.classList.add("popupform_opened");
-	document.addEventListener('keydown', () => closePopUpEscape(event, popup));
 }
 
 export function openAddPopUp(popup) {
@@ -35,9 +25,26 @@ export function openAddPopUp(popup) {
 	openPopUp(popup);
 }
 
+function closePopUpEscape(event) {
+	if (event.key == 'Escape') {
+		closePopUp(document.querySelector('.popupform_opened'));
+	}
+}
+
+export function openPopUp(popup) {
+	popup.classList.add("popupform_opened");
+	document.addEventListener('keydown', closePopUpEscape);
+}
+
 export function closePopUp(popup) {
 	popup.classList.remove('popupform_opened');
-	document.removeEventListener('keydown', closePopUpEscape(event, popup));
+	document.removeEventListener('keydown', closePopUpEscape);
+}
+
+export function openAvatarPopUp(popup) {
+	profileFormName.value = profileTitle.textContent;
+	profileFormProfession.value = profileSubTitle.textContent;
+	openPopUp(popup);
 }
 
 export function submitEditProfileForm(evt, popup) {
@@ -63,7 +70,7 @@ export function submitEditProfileForm(evt, popup) {
 	changeText('Сохранить', popup);
 }
 
-export function submitAddForm(evt, popup) {
+export function submitAddForm(evt, popup,inactiveButtonClass) {
 	evt.preventDefault();
 	changeText('Создание...', popup);
 	fetch('https://nomoreparties.co/v1/plus-cohort-1/cards', {
@@ -94,7 +101,7 @@ export function submitAddForm(evt, popup) {
 		});
 	popUpAddForm.reset();
 	const submitButton = popup.querySelector('.popupform__save-button');
-	submitButton.classList.add('popupform__save-button_inactive');
+	submitButton.classList.add(inactiveButtonClass);
 	submitButton.disabled = true;
 	closePopUp(popup);
 	changeText('Создать', popup);
@@ -120,4 +127,5 @@ export function submitEditAvatarForm(evt, popup) {
 	profileAvatarPopUp.reset();
 	closePopUp(popup);
 	changeText('Сохранить', popup);
+	closePopUp(popup);
 }
