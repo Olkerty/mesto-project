@@ -1,6 +1,8 @@
 ﻿import { addCard } from "./cards";
 
-import { profileAvatar, profileAvatarPopUp } from "./script";
+import { profileAvatar, profileAvatarPopUp, config } from "./script";
+
+import { submitEditFormToServer, submitAddFormToServer, submitAvatarToServer } from "./api";
 
 export const popUpPicture = document.querySelector(`div[name="popupform__picture"]`);
 const addFormName = document.querySelector(`input[name="popupadd__image-name"]`);
@@ -52,6 +54,8 @@ export function submitEditProfileForm(evt, popup) {
 	changeText('Сохранение...', popup);
 	profileTitle.textContent = profileFormName.value;
 	profileSubTitle.textContent = profileFormProfession.value;
+	submitEditFormToServer(config.URLme, config.contentHeaders, profileFormName.value, profileFormProfession.value)
+	/*
 	fetch('https://nomoreparties.co/v1/plus-cohort-1/users/me', {
 		method: 'PATCH',
 		headers: {
@@ -66,13 +70,16 @@ export function submitEditProfileForm(evt, popup) {
 		.catch((err) => {
 			console.log(err);
 		});
+		*/
 	closePopUp(popup);
 	changeText('Сохранить', popup);
 }
 
-export function submitAddForm(evt, popup,inactiveButtonClass) {
+export function submitAddForm(evt, popup, inactiveButtonClass) {
 	evt.preventDefault();
 	changeText('Создание...', popup);
+	submitAddFormToServer(config.URLcards, config.contentHeaders, addFormName.value, addFormLink.value);
+	/*
 	fetch('https://nomoreparties.co/v1/plus-cohort-1/cards', {
 		method: 'POST',
 		headers: {
@@ -99,6 +106,7 @@ export function submitAddForm(evt, popup,inactiveButtonClass) {
 		.catch((err) => {
 			console.log(err);
 		});
+		*/
 	popUpAddForm.reset();
 	const submitButton = popup.querySelector('.popupform__save-button');
 	submitButton.classList.add(inactiveButtonClass);
@@ -110,6 +118,8 @@ export function submitAddForm(evt, popup,inactiveButtonClass) {
 export function submitEditAvatarForm(evt, popup) {
 	evt.preventDefault();
 	changeText('Сохранение...', popup);
+	submitAvatarToServer(config.URLmyAvatar, config.contentHeaders, profileAvatarInput.value);
+	/*
 	fetch('https://nomoreparties.co/v1/plus-cohort-1/users/me/avatar', {
 		method: 'PATCH',
 		headers: {
@@ -123,6 +133,7 @@ export function submitEditAvatarForm(evt, popup) {
 		.catch((err) => {
 			console.log(err);
 		});
+		*/
 	profileAvatar.src = profileAvatarInput.value;
 	profileAvatarPopUp.reset();
 	closePopUp(popup);

@@ -8,10 +8,10 @@ import { addCard } from './cards';
 
 import { openPopUp, closePopUp, openAvatarPopUp, submitAddForm, submitEditProfileForm, popUpPicture, popUpAddForm, submitEditAvatarForm } from './modal';
 
+import { loadAvatar, loadCards } from './api';
+
 //import { cards } from './initial-cards';
 
-const profileTitle = document.querySelector('.profile__title');
-const profileSubTitle = document.querySelector('.profile__subtitle');
 export const profileAvatar = document.querySelector('.profile__avatar');
 const profileHoverMask = document.querySelector('.profile__hover-mask');
 const editButton = document.querySelector('.profile__edit-button');
@@ -24,8 +24,19 @@ const closeEditFormButton = document.querySelector('.popupform__close-icon');
 const editProfileFormItSelf = document.querySelector('.popupform__form-itself');
 export const profileAvatarPopUp = document.querySelector('form[name= "popup__avatar-redact-form-itself"]');
 
+export const config = {
+  URLme: 'https://nomoreparties.co/v1/plus-cohort-1/users/me',
+  URLmyAvatar: 'https://nomoreparties.co/v1/plus-cohort-1/users/me/avatar',
+  URLcards: 'https://nomoreparties.co/v1/plus-cohort-1/cards',
+  contentHeaders: {
+    authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
+    'Content-Type': 'application/json'
+  },
+  tokenHeaders: {
+    authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c'
+  },
+}
 
-let myId = '571dcf6f2cfcc0fecc4eba60';
 const imagePopUpCloseIcon = document.querySelector('.popupform__img-close-icon');
 
 const validationParameters = {
@@ -34,11 +45,6 @@ const validationParameters = {
   inputErrorClass: 'popupform__input-type_error',
   errorClass: 'popupform__input-error_active'
 }
-
-
-cards.forEach(function (item) {
-  addCard(item)
-});
 
 Array.from(document.querySelectorAll('.popupform__container')).forEach(function (container) {
   document.addEventListener('mouseup', function (event) {
@@ -60,6 +66,9 @@ closeAddFormButton.addEventListener('click', () => closePopUp(popUpAdd));
 profileHoverMask.addEventListener('click', () => openPopUp(popUpRedProfileAvatar));
 profileAvatarPopUp.addEventListener('submit', () => submitEditAvatarForm(event, popUpRedProfileAvatar));
 
+
+loadAvatar(config.URLme, config.tokenHeaders);
+/*
 fetch('https://nomoreparties.co/v1/plus-cohort-1/users/me', {
   headers: {
     authorization: "18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c"
@@ -83,7 +92,9 @@ fetch('https://nomoreparties.co/v1/plus-cohort-1/users/me', {
   .catch((err) => {
     console.log(err);
   });
-
+  */
+loadCards(config.URLcards, config.tokenHeaders);
+/*
 fetch('https://nomoreparties.co/v1/plus-cohort-1/cards', {
   headers: {
     authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
@@ -125,6 +136,7 @@ fetch('https://nomoreparties.co/v1/plus-cohort-1/cards', {
   .catch((err) => {
     console.log(err);
   });
+  */
 imagePopUpCloseIcon.addEventListener('click', () => closePopUp(popUpPicture));
 
 enableValidation(validationParameters);
