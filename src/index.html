@@ -16,7 +16,10 @@
     </header>
     <main class="content">
       <section class="profile">
-        <img src="<%=require('./images/kusto.svg')%>" class="profile__avatar" alt="Изображение пользователя">
+        <div class="profile__img-container">
+          <div class="profile__hover-mask"></div>
+          <img src="<%=require('./images/kusto.svg')%>" class="profile__avatar" alt="Изображение пользователя">
+        </div>
         <div class="profile__info">
           <div class="profile__text">
             <h1 class="profile__title">Жак-Ив-Кусто</h1>
@@ -33,7 +36,10 @@
             <img class="photo-grid__picture" src="" alt="">
             <div class="photo-grid__text-area">
               <h2 class="photo-grid__text"></h2>
-              <button type="button" aria-label="Оценить карточку" class="photo-grid__like"> </button>
+              <div class="photo-grid__like-container">
+                <button type="button" aria-label="Оценить карточку" class="photo-grid__like"> </button>
+                <p class="photo-grid__like-count">0</p>
+              </div>
             </div>
           </div>
         </template>
@@ -83,6 +89,29 @@
         <button type="button" class="popupform__img-close-icon"></button>
         <img src="" class="popupform__image" name="popupform__image" alt="">
         <p class="popupform__text" name="popupform__text"></p>
+      </div>
+    </div>
+    <div class="popupform" name="popupform__avatar-redact">
+      <button type="button" class="popupform__edit-image-close-icon"></button>
+      <div class="popupform__container">
+        <h2 class="popupform__header">Обновить аватар</h2>
+        <form class=" popupform__form-itself" name="popup__avatar-redact-form-itself">
+          <input type="url" name="popup__avatar-redact-link" class="popupform__textinput popupform__edit-image"
+            placeholder="Ссылка на картинку" required id="popupform__link">
+          <span class="popupform__link-error"></span>
+          <button type="submit" class="popupform__save-button" name="popupadd__save-button">
+            Сохранить
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="popupform" name="popupform__affirm">
+      <button type="button" class="popupform__img-close-icon"></button>
+      <div class="popupform__container">
+        <h2 class="popupform__header">Вы уверены?</h2>
+        <button type="submit" class="popupform__save-button" name="popupadd__save-button">
+          Да
+        </button>
       </div>
     </div>
   </div>

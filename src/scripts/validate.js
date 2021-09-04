@@ -33,6 +33,7 @@ function toggleButtonState(inputList, button, inactiveButtonClass) {
 	} else {
 		button.disabled = false;
 		button.classList.remove(inactiveButtonClass);
+		button.disabled = false;
 	}
 }
 
