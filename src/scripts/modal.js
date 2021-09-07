@@ -55,88 +55,45 @@ export function submitEditProfileForm(evt, popup) {
 	profileTitle.textContent = profileFormName.value;
 	profileSubTitle.textContent = profileFormProfession.value;
 	submitEditFormToServer(config.URLme, config.contentHeaders, profileFormName.value, profileFormProfession.value)
-	/*
-	fetch('https://nomoreparties.co/v1/plus-cohort-1/users/me', {
-		method: 'PATCH',
-		headers: {
-			authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			name: profileFormName.value,
-			about: profileFormProfession.value
+		.then(() => {
+			closePopUp(popup);
 		})
-	})
 		.catch((err) => {
 			console.log(err);
-		});
-		*/
-	closePopUp(popup);
-	changeText('Сохранить', popup);
+		})
+		.finally(() => changeText('Сохранить', popup));
 }
 
 export function submitAddForm(evt, popup, inactiveButtonClass) {
 	evt.preventDefault();
 	changeText('Создание...', popup);
-	submitAddFormToServer(config.URLcards, config.contentHeaders, addFormName.value, addFormLink.value);
-	/*
-	fetch('https://nomoreparties.co/v1/plus-cohort-1/cards', {
-		method: 'POST',
-		headers: {
-			authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			name: addFormName.value,
-			link: addFormLink.value
-		})
-	})
-		.then(res => {
-			if (res.ok) {
-				return res.json();
-			}
-
-			// если ошибка, отклоняем промис
-			return Promise.reject(`Ошибка: ${res.status}`);
-		})
-		.then((ret) => {
-			console.log(ret);
-			addCard(ret, false, true);
+	submitAddFormToServer(config.URLcards, config.contentHeaders, addFormName.value, addFormLink.value)
+		.then(() => {
+			popUpAddForm.reset();
+			const submitButton = popup.querySelector('.popupform__save-button');
+			submitButton.classList.add(inactiveButtonClass);
+			submitButton.disabled = true;
+			closePopUp(popup);
 		})
 		.catch((err) => {
 			console.log(err);
-		});
-		*/
-	popUpAddForm.reset();
-	const submitButton = popup.querySelector('.popupform__save-button');
-	submitButton.classList.add(inactiveButtonClass);
-	submitButton.disabled = true;
-	closePopUp(popup);
-	changeText('Создать', popup);
+		})
+		.finally(() => changeText('Создать', popup));
 }
 
 export function submitEditAvatarForm(evt, popup) {
 	evt.preventDefault();
 	changeText('Сохранение...', popup);
-	submitAvatarToServer(config.URLmyAvatar, config.contentHeaders, profileAvatarInput.value);
-	/*
-	fetch('https://nomoreparties.co/v1/plus-cohort-1/users/me/avatar', {
-		method: 'PATCH',
-		headers: {
-			authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			avatar: profileAvatarInput.value,
+	submitAvatarToServer(config.URLmyAvatar, config.contentHeaders, profileAvatarInput.value)
+		.then((ret) => {
+			console.log(ret);
+			addCard(ret, false, true);
+			profileAvatar.src = profileAvatarInput.value;
+			profileAvatarPopUp.reset();
+			closePopUp(popup);
 		})
-	})
 		.catch((err) => {
 			console.log(err);
-		});
-		*/
-	profileAvatar.src = profileAvatarInput.value;
-	profileAvatarPopUp.reset();
-	closePopUp(popup);
-	changeText('Сохранить', popup);
-	closePopUp(popup);
+		})
+		.finally(() => changeText('Создать', popup));
 }

@@ -9,43 +9,19 @@ const photoGrid = document.querySelector('.photo-grid');
 const deletePopUp = document.querySelector('div[name="popupform__affirm"]');
 
 function switchLikeIcon(button, cardId) {
-	//console.log(button);
-	//console.log(!Array.from(button.classList).includes('photo-grid__like_liked'));
 	button.classList.toggle('photo-grid__like_liked');
 	const countElement = button.parentElement.querySelector('.photo-grid__like-count');
 	if (Array.from(button.classList).includes('photo-grid__like_liked')) {
-		toggleLikeAtServer('PUT', config.contentHeaders, cardId);
-		/*
-		fetch(`https://nomoreparties.co/v1/plus-cohort-1/cards/likes/${cardId}`, {
-			method: 'PUT',
-			headers: {
-				authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
-				'Content-Type': 'application/json'
-			}
-		})
+		toggleLikeAtServer('PUT', config.contentHeaders, cardId)
 			.catch((err) => {
 				console.log(err);
 			});
-			*/
-		//console.log('NO');
-		//console.log(button.nextSibling.textContent);
 		countElement.textContent = +countElement.textContent + 1;
 	} else {
-		toggleLikeAtServer('DELETE', config.contentHeaders, cardId);
-		/*
-		fetch(`https://nomoreparties.co/v1/plus-cohort-1/cards/likes/${cardId}`, {
-			method: 'DELETE',
-			headers: {
-				authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
-				'Content-Type': 'application/json'
-			}
-		})
+		toggleLikeAtServer('DELETE', config.contentHeaders, cardId)
 			.catch((err) => {
 				console.log(err);
 			});
-			*/
-		//console.log('YES');
-		//console.log(button.nextSibling.textContent);
 		countElement.textContent = +countElement.textContent - 1;
 	}
 }
@@ -64,7 +40,6 @@ function createCard(card, isLiked, cardIsMine) {
 	const pictureOnCard = clone.querySelector('.photo-grid__picture');
 	pictureOnCard.src = card.link;
 	pictureOnCard.alt = card.name;
-	//pictureOnCard.addEventListener('click', openPopUp.bind(popUpPicture));
 	pictureOnCard.addEventListener('click', () => insertParameters(popUpPicture, card));
 	const textOnCard = clone.querySelector('.photo-grid__text');
 	textOnCard.textContent = card.name;
@@ -91,15 +66,6 @@ function showDeletePopUp(cardId, eventTarget) {
 
 function deletePhotoGridElement(cardId, deleteButton, affirmButton) {
 	deletePhotoGridElementFromServer('DELETE', config.contentHeaders, cardId);
-	/*
-	fetch(`https://nomoreparties.co/v1/plus-cohort-1/cards/${cardId}`, {
-		method: 'DELETE',
-		headers: {
-			authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
-			'Content-Type': 'application/json'
-		},
-	});
-	*/
 	affirmButton.removeEventListener('click', () => deletePhotoGridElement(cardId, eventTarget, affirmButton));
 	deleteButton.closest('.photo-grid__item').remove();
 	closePopUp(deletePopUp);
