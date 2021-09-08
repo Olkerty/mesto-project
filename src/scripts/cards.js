@@ -65,12 +65,17 @@ function showDeletePopUp(cardId, eventTarget) {
 }
 
 function deletePhotoGridElement(cardId, deleteButton, affirmButton) {
-	deletePhotoGridElementFromServer('DELETE', config.contentHeaders, cardId);
-	affirmButton.removeEventListener('click', () => deletePhotoGridElement(cardId, eventTarget, affirmButton));
-	deleteButton.closest('.photo-grid__item').remove();
-	closePopUp(deletePopUp);
+	deletePhotoGridElementFromServer('DELETE', config.contentHeaders, cardId)
+		.then(() => {
+			affirmButton.removeEventListener('click', () => deletePhotoGridElement(cardId, eventTarget, affirmButton));
+			deleteButton.closest('.photo-grid__item').remove();
+			closePopUp(deletePopUp);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 }
 
 export function addCard(card, isLiked, cardIsMine) {
-	photoGrid.append(createCard(card, isLiked, cardIsMine));
+	photoGrid.prepend(createCard(card, isLiked, cardIsMine));
 }

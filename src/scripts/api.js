@@ -16,7 +16,7 @@ export function loadCards(url, headers) {
 	return fetch(url, {
 		headers: headers
 	})
-		.then(getResponseData)
+		.then(getResponseData);
 }
 
 export function submitEditFormToServer(url, headers, name, about) {
@@ -27,7 +27,8 @@ export function submitEditFormToServer(url, headers, name, about) {
 			name: name,
 			about: about
 		})
-	});
+	})
+		.then(getResponseData);
 }
 
 export function submitAddFormToServer(url, headers, name, link) {
@@ -49,7 +50,8 @@ export function submitAvatarToServer(url, headers, avatar) {
 		body: JSON.stringify({
 			avatar: avatar,
 		})
-	});
+	})
+		.then(getResponseData);
 }
 
 export function toggleLikeAtServer(method, headers, cardId) {
@@ -57,12 +59,13 @@ export function toggleLikeAtServer(method, headers, cardId) {
 		method: method,
 		headers: headers
 	})
-		.then(getResponseData)
+		.then(getResponseData);
 }
 
 export function deletePhotoGridElementFromServer(method, headers, cardId) {
-	fetch(`https://nomoreparties.co/v1/plus-cohort-1/cards/${cardId}`, {
+	return fetch(`https://nomoreparties.co/v1/plus-cohort-1/cards/${cardId}`, {
 		method: method,
 		headers: headers
-	});
+	})
+		.then(getResponseData);
 }

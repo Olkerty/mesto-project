@@ -52,10 +52,10 @@ export function openAvatarPopUp(popup) {
 export function submitEditProfileForm(evt, popup) {
 	evt.preventDefault();
 	changeText('Сохранение...', popup);
-	profileTitle.textContent = profileFormName.value;
-	profileSubTitle.textContent = profileFormProfession.value;
 	submitEditFormToServer(config.URLme, config.contentHeaders, profileFormName.value, profileFormProfession.value)
-		.then(() => {
+		.then((response) => {
+			profileTitle.textContent = response.name;
+			profileSubTitle.textContent = response.about;
 			closePopUp(popup);
 		})
 		.catch((err) => {
@@ -68,7 +68,8 @@ export function submitAddForm(evt, popup, inactiveButtonClass) {
 	evt.preventDefault();
 	changeText('Создание...', popup);
 	submitAddFormToServer(config.URLcards, config.contentHeaders, addFormName.value, addFormLink.value)
-		.then(() => {
+		.then((ret) => {
+			addCard(ret, false, true);
 			popUpAddForm.reset();
 			const submitButton = popup.querySelector('.popupform__save-button');
 			submitButton.classList.add(inactiveButtonClass);
@@ -85,10 +86,8 @@ export function submitEditAvatarForm(evt, popup) {
 	evt.preventDefault();
 	changeText('Сохранение...', popup);
 	submitAvatarToServer(config.URLmyAvatar, config.contentHeaders, profileAvatarInput.value)
-		.then((ret) => {
-			console.log(ret);
-			addCard(ret, false, true);
-			profileAvatar.src = profileAvatarInput.value;
+		.then((response) => {
+			profileAvatar.src = response.avatar;
 			profileAvatarPopUp.reset();
 			closePopUp(popup);
 		})
