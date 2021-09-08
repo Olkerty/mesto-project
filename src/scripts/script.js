@@ -49,7 +49,7 @@ const validationParameters = {
 }
 
 Array.from(document.querySelectorAll('.popupform__container')).forEach(function (container) {
-  document.addEventListener('mouseup', function (event) {
+  container.closest('.popupform').addEventListener('mouseup', function (event) {
     if (event.target != container && !container.contains(event.target)) {
       closePopUp(container.closest('.popupform'));
     }
