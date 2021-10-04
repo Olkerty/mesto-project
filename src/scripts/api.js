@@ -1,71 +1,95 @@
-export function getResponseData(data) {
-	if (data.ok) {
-		return data.json();
+class Api {
+	constructor({urlMe, urlAvatar, urlCards, contentHeader, tokenHeaders}) {
+		this._urlMe = urlMe;
+		this._urlAvatar = urlAvatar;
+		this._urlCards = urlCards;
+		this._contentHeader = contentHeader;
+		this._tokenHeaders = tokenHeaders;
 	}
-	return Promise.reject(`Ошибка: ${data.status}`);
-}
 
-export function loadAvatar(url, headers) {
-	return fetch(url, {
-		headers: headers
-	})
-		.then(getResponseData);
-}
+	getResponseData(data) {
+		if (data.ok) {
+			return data.json();
+		}
+		return Promise.reject(`Ошибка: ${data.status}`);
+	}
 
-export function loadCards(url, headers) {
-	return fetch(url, {
-		headers: headers
-	})
-		.then(getResponseData);
-}
-
-export function submitEditFormToServer(url, headers, name, about) {
-	return fetch(url, {
-		method: 'PATCH',
-		headers: headers,
-		body: JSON.stringify({
-			name: name,
-			about: about
+	loadAvatar() {
+		return fetch(this._urlMe, {
+			headers: this._tokenHeaders
 		})
-	})
-		.then(getResponseData);
-}
+			.then(this.getResponseData);
+	}
 
-export function submitAddFormToServer(url, headers, name, link) {
-	return fetch(url, {
-		method: 'POST',
-		headers: headers,
-		body: JSON.stringify({
-			name: name,
-			link: link
+	loadCards() {
+		return fetch(this._urlCards, {
+			headers: this._tokenHeaders
 		})
-	})
-		.then(getResponseData);
-}
+			.then(this.getResponseData);
+	}
 
-export function submitAvatarToServer(url, headers, avatar) {
-	return fetch(url, {
-		method: 'PATCH',
-		headers: headers,
-		body: JSON.stringify({
-			avatar: avatar,
+	submitEditFormToServer(name, about) {
+		return fetch(this._urlMe, {
+			method: 'PATCH',
+			headers: this._contentHeader,
+			body: JSON.stringify({
+				name: name,
+				about: about
+			})
 		})
-	})
-		.then(getResponseData);
+			.then(this.getResponseData);
+	}
+
+	submitAddFormToServer(name, link) {
+		return fetch(this._urlCards, {
+			method: 'POST',
+			headers: this._contentHeader,
+			body: JSON.stringify({
+				name: name,
+				link: link
+			})
+		})
+			.then(this.getResponseData);
+	}
+
+	submitAvatarToServer(avatar) {
+		return fetch(this._urlAvatar, {
+			method: 'PATCH',
+			headers: this._contentHeader,
+			body: JSON.stringify({
+				avatar: avatar,
+			})
+		})
+			.then(this.getResponseData);
+	}
+
+	toggleLikeAtServer(method, cardId) {
+		return fetch(`https://nomoreparties.co/v1/plus-cohort-1/cards/likes/${cardId}`, {
+			method: method,
+			headers: this._contentHeader
+		})
+			.then(this.getResponseData);
+	}
+
+	deletePhotoGridElementFromServer(cardId) {
+		return fetch(`https://nomoreparties.co/v1/plus-cohort-1/cards/${cardId}`, {
+			method: 'DELETE',
+			headers: this._contentHeader
+		})
+			.then(this.getResponseData);
+	}
+}
+const config = {
+	urlMe: 'https://nomoreparties.co/v1/plus-cohort-1/users/me',
+	urlAvatar: 'https://nomoreparties.co/v1/plus-cohort-1/users/me/avatar',
+	urlCards: 'https://nomoreparties.co/v1/plus-cohort-1/cards',
+	contentHeader: {
+		authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
+		'Content-Type': 'application/json'
+	},
+	tokenHeaders: {
+		authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c'
+	},
 }
 
-export function toggleLikeAtServer(method, headers, cardId) {
-	return fetch(`https://nomoreparties.co/v1/plus-cohort-1/cards/likes/${cardId}`, {
-		method: method,
-		headers: headers
-	})
-		.then(getResponseData);
-}
-
-export function deletePhotoGridElementFromServer(method, headers, cardId) {
-	return fetch(`https://nomoreparties.co/v1/plus-cohort-1/cards/${cardId}`, {
-		method: method,
-		headers: headers
-	})
-		.then(getResponseData);
-}
+export const api = new Api(config);

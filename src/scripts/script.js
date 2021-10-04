@@ -1,14 +1,13 @@
 ﻿// JavaScript source code
 import '../pages/index.css';
 
-import { enableValidation } from './validate';
+import { Validation } from './validate';
 
-import { addCard } from './cards';
+import { Card } from './cards';
 
 
 import { openPopUp, closePopUp, openAvatarPopUp, submitAddForm, submitEditProfileForm, popUpPicture, popUpAddForm, submitEditAvatarForm } from './modal';
 
-import { loadAvatar, loadCards } from './api';
 
 //import { cards } from './initial-cards';
 
@@ -26,18 +25,10 @@ const closeEditFormButton = document.querySelector('.popupform__close-icon');
 const editProfileFormItSelf = document.querySelector('.popupform__form-itself');
 export const profileAvatarPopUp = document.querySelector('form[name= "popup__avatar-redact-form-itself"]');
 export let myId;
-export const config = {
-  URLme: 'https://nomoreparties.co/v1/plus-cohort-1/users/me',
-  URLmyAvatar: 'https://nomoreparties.co/v1/plus-cohort-1/users/me/avatar',
-  URLcards: 'https://nomoreparties.co/v1/plus-cohort-1/cards',
-  contentHeaders: {
-    authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
-    'Content-Type': 'application/json'
-  },
-  tokenHeaders: {
-    authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c'
-  },
-}
+
+const template = document.querySelector('#template');
+
+import { api } from "./api";
 
 const imagePopUpCloseIcon = document.querySelector('.popupform__img-close-icon');
 
@@ -69,8 +60,8 @@ profileHoverMask.addEventListener('click', () => openPopUp(popUpRedProfileAvatar
 profileAvatarPopUp.addEventListener('submit', () => submitEditAvatarForm(event, popUpRedProfileAvatar));
 
 Promise.all([
-  loadAvatar(config.URLme, config.tokenHeaders),
-  loadCards(config.URLcards, config.tokenHeaders)
+  api.loadAvatar(),
+  api.loadCards()
 ])
   .then((values) => {
     profileTitle.textContent = values[0].name;
@@ -90,7 +81,8 @@ Promise.all([
       if (values[1][i].owner._id == myId) {
         cardIsMine = true;
       }
-      addCard(values[1][i], isLiked, cardIsMine);
+      const card = new Card(values[1][i], isLiked, cardIsMine);
+      card.addCard(template);
     }
   })
   .catch((err) => {
@@ -98,7 +90,14 @@ Promise.all([
   });
 imagePopUpCloseIcon.addEventListener('click', () => closePopUp(popUpPicture));
 
-enableValidation(validationParameters);
+// enableValidation(validationParameters);
+
+const formList = Array.from(document.forms);
+formList.forEach((i) => {
+  const newValidity = new Validation(validationParameters, i);
+  newValidity.enableValidation();
+});
+
 editButton.addEventListener('click', () => openAvatarPopUp(popUpEditProfileForm), false);
 addButton.addEventListener('click', () => openPopUp(popUpAdd));
 closeAddFormButton.addEventListener('click', () => closePopUp(popUpAdd));
