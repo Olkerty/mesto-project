@@ -1,8 +1,8 @@
-﻿import { addCard } from "./cards";
+﻿import { Card } from "./cards";
 
 import { profileAvatar, profileAvatarPopUp, config } from "./script";
 
-import { submitEditFormToServer, submitAddFormToServer, submitAvatarToServer } from "./api";
+import { api } from "./api";
 
 export const popUpPicture = document.querySelector(`div[name="popupform__picture"]`);
 const addFormName = document.querySelector(`input[name="popupadd__image-name"]`);
@@ -13,6 +13,7 @@ const profileSubTitle = document.querySelector('.profile__subtitle');
 const profileFormName = document.querySelector(`input[name='profile__name']`);
 const profileFormProfession = document.querySelector('input[name = "profile__profession"]');
 export const popUpAddForm = document.querySelector(`form[name="popupadd__form-itself"]`);
+const template = document.querySelector('#template');
 
 
 function changeText(text, container) {
@@ -52,7 +53,7 @@ export function openAvatarPopUp(popup) {
 export function submitEditProfileForm(evt, popup) {
 	evt.preventDefault();
 	changeText('Сохранение...', popup);
-	submitEditFormToServer(config.URLme, config.contentHeaders, profileFormName.value, profileFormProfession.value)
+	api.submitEditFormToServer(profileFormName.value, profileFormProfession.value)
 		.then((response) => {
 			profileTitle.textContent = response.name;
 			profileSubTitle.textContent = response.about;
@@ -67,9 +68,10 @@ export function submitEditProfileForm(evt, popup) {
 export function submitAddForm(evt, popup, inactiveButtonClass) {
 	evt.preventDefault();
 	changeText('Создание...', popup);
-	submitAddFormToServer(config.URLcards, config.contentHeaders, addFormName.value, addFormLink.value)
+	api.submitAddFormToServer(addFormName.value, addFormLink.value)
 		.then((ret) => {
-			addCard(ret, false, true);
+			const card = new Card(ret, false, true);
+			card.addCard(template);
 			popUpAddForm.reset();
 			const submitButton = popup.querySelector('.popupform__save-button');
 			submitButton.classList.add(inactiveButtonClass);
@@ -85,7 +87,7 @@ export function submitAddForm(evt, popup, inactiveButtonClass) {
 export function submitEditAvatarForm(evt, popup) {
 	evt.preventDefault();
 	changeText('Сохранение...', popup);
-	submitAvatarToServer(config.URLmyAvatar, config.contentHeaders, profileAvatarInput.value)
+	api.submitAvatarToServer(profileAvatarInput.value)
 		.then((response) => {
 			profileAvatar.src = response.avatar;
 			profileAvatarPopUp.reset();
