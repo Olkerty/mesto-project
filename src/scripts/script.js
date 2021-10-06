@@ -2,19 +2,16 @@
 import '../pages/index.css';
 
 import { Validation } from './validate';
-
 import { Card } from './cards';
-
-
-import { openPopUp, closePopUp, openAvatarPopUp, submitAddForm, submitEditProfileForm, popUpPicture, popUpAddForm, submitEditAvatarForm } from './modal';
-
+import {UserInfo} from "./UserInfo";
 import { Section } from './Section.js';
+import {Api} from './api.js'
+import {config, validationParameters} from "./data";
+import { PopUpWithForm } from './modal.js';
 
-import { Popup } from './modal.js';
 
-import { editProfileForm, PopUpWithForm } from './modal.js';
-
-//import { cards } from './initial-cards';
+const userInfo = new UserInfo('profile__title', 'profile__subtitle');
+export const api = new Api(config);
 
 export const profileAvatar = document.querySelector('.profile__avatar');
 const profileTitle = document.querySelector('.profile__title');
@@ -22,27 +19,12 @@ const profileSubTitle = document.querySelector('.profile__subtitle');
 const profileHoverMask = document.querySelector('.profile__hover-mask');
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
-const popUpEditProfileForm = document.querySelector('div[name="popupform__edit-profile"]');
-const popUpAdd = document.querySelector('div[name = "popupadd"]');
-const popUpRedProfileAvatar = document.querySelector('div[name = "popupform__avatar-redact"]');
-const closeAddFormButton = document.querySelector('button[name = "popupadd__close-icon"]');
-const closeEditFormButton = document.querySelector('.popupform__close-icon');
-const editProfileFormItSelf = document.querySelector('.popupform__form-itself');
 export const profileAvatarPopUp = document.querySelector('form[name= "popup__avatar-redact-form-itself"]');
 export let myId;
 
 const template = document.querySelector('#template');
 
-import { api } from "./api";
-
 const imagePopUpCloseIcon = document.querySelector('.popupform__img-close-icon');
-
-const validationParameters = {
-  submitButtonSelector: 'popupform__save-button',
-  inactiveButtonClass: 'popupform__save-button_inactive',
-  inputErrorClass: 'popupform__input-type_error',
-  errorClass: 'popupform__input-error_active'
-}
 
 profileAvatar.addEventListener('mouseover', function (event) {
   document.querySelector('.profile__hover-mask').classList.add('profile__hover-mask_visible');
@@ -51,14 +33,9 @@ profileHoverMask.addEventListener('mouseout', function (event) {
   document.querySelector('.profile__hover-mask').classList.remove('profile__hover-mask_visible');
 });
 
-//editProfileFormItSelf.addEventListener('submit', () => submitEditProfileForm(event, popUpEditProfileForm));
-closeEditFormButton.addEventListener('click', () => closePopUp(popUpEditProfileForm));
-//closeAddFormButton.addEventListener('click', () => closePopUp(popUpAdd));
-profileHoverMask.addEventListener('click', () => openPopUp(popUpRedProfileAvatar));
-profileAvatarPopUp.addEventListener('submit', () => submitEditAvatarForm(event, popUpRedProfileAvatar));
 
 Promise.all([
-  api.loadAvatar(),
+  userInfo.getUserInfo(),
   api.loadCards()
 ])
   .then((values) => {
@@ -67,7 +44,7 @@ Promise.all([
     profileAvatar.src = values[0].avatar;
     myId = values[0]._id;
     const initialCardSection = new Section({
-      items: values[1],
+      items: values[1].reverse(),
       renderer: function (item) {
         let isLiked = false;
         let cardIsMine = false;
@@ -81,10 +58,11 @@ Promise.all([
         if (item.owner._id == myId) {
           cardIsMine = true;
         }
+        console.log(values[1])
         const card = new Card(item, isLiked, cardIsMine);
         card.addCard(template);
       }
-    }, '.photo-grid')
+    }, '.photo-grid');
     initialCardSection.renderItems();
   })
   .catch((err) => {
@@ -98,14 +76,10 @@ formList.forEach((item) => {
   newValidity.enableValidation();
 });
 
-//editButton.addEventListener('click', () => openAvatarPopUp(popUpEditProfileForm), false);
 const profileFormName = document.querySelector(`input[name='profile__name']`);
 const profileFormProfession = document.querySelector('input[name = "profile__profession"]');
-editButton.addEventListener('click', () => {
-  profileFormName.value = profileTitle.textContent;
-  profileFormProfession.value = profileSubTitle.textContent;
-  editProfileForm.open();
-})
+
+
 const addPopup = new PopUpWithForm('div[name = "popupadd"]', ({ popupadd__image_name, popupadd__link }) => {
   api.submitAddFormToServer(popupadd__image_name, popupadd__link)
     .then((ret) => {
@@ -115,9 +89,9 @@ const addPopup = new PopUpWithForm('div[name = "popupadd"]', ({ popupadd__image_
           const card = new Card(item, false, true);
           card.addCard(template);
         }
-      }, '.photo-grid')
+      }, '.photo-grid');
       initialCardSection.addItem(ret);
-      popUpAddForm.reset();
+        addPopup._popup.querySelector('.popupform__form-itself').reset();
       /*
       const submitButton = addPopup.querySelector('.popupform__save-button');
       submitButton.classList.add(inactiveButtonClass);
@@ -132,6 +106,32 @@ const addPopup = new PopUpWithForm('div[name = "popupadd"]', ({ popupadd__image_
 });
 addButton.addEventListener('click', () => { addPopup.open() });
 
-//addButton.addEventListener('click', () => openPopUp(popUpAdd));
-//closeAddFormButton.addEventListener('click', () => closePopUp(popUpAdd));
-//popUpAddForm.addEventListener('submit', () => submitAddForm(event, popUpAdd, validationParameters.inactiveButtonClass));
+const editProfileForm = new PopUpWithForm('div[name="popupform__edit-profile"]', ({ profile__name, profile__profession }) => {
+    userInfo.setUserInfo(profile__name, profile__profession)
+        .then(() => {
+            editProfileForm.close();
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+});
+editButton.addEventListener('click', () => {
+    profileFormName.value = profileTitle.textContent;
+    profileFormProfession.value = profileSubTitle.textContent;
+    editProfileForm.open();
+});
+
+const changeAvatarForm = new PopUpWithForm('div[name="popupform__avatar-redact"]', ({popup__avatar_redact_link}) => {
+    api.submitAvatarToServer(popup__avatar_redact_link)
+        .then((response) => {
+            profileAvatar.src = response.avatar;
+            profileAvatarPopUp.reset();
+            changeAvatarForm.close();
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+});
+profileHoverMask.addEventListener('click', () => {
+    changeAvatarForm.open()
+});
