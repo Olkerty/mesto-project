@@ -1,4 +1,4 @@
-class Api {
+export class Api {
 	constructor({urlMe, urlAvatar, urlCards, contentHeader, tokenHeaders}) {
 		this._urlMe = urlMe;
 		this._urlAvatar = urlAvatar;
@@ -79,17 +79,3 @@ class Api {
 			.then(this.getResponseData);
 	}
 }
-const config = {
-	urlMe: 'https://nomoreparties.co/v1/plus-cohort-1/users/me',
-	urlAvatar: 'https://nomoreparties.co/v1/plus-cohort-1/users/me/avatar',
-	urlCards: 'https://nomoreparties.co/v1/plus-cohort-1/cards',
-	contentHeader: {
-		authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
-		'Content-Type': 'application/json'
-	},
-	tokenHeaders: {
-		authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c'
-	},
-}
-
-export const api = new Api(config);

@@ -1,8 +1,8 @@
-﻿import { closePopUp, openPopUp, popUpPicture } from "./modal";
+﻿//import { closePopUp, openPopUp, popUpPicture } from "./modal";
 
-import { api } from "./api";
+import { api } from "./script.js";
 
-import { PopUpWithImage } from "./modal";
+import { PopUpWithImage, deletePopup } from "./modal";
 
 const photoGrid = document.querySelector('.photo-grid');
 const deletePopUp = document.querySelector('div[name="popupform__affirm"]');
@@ -45,7 +45,9 @@ export class Card {
 		if (this._cardIsMine) {
 			const deleteButton = cardItem.querySelector('.photo-grid__delete');
 			deleteButton.style.display = 'block';
-			deleteButton.addEventListener('click', () => this.showDeletePopUp(this._id, event.target));
+			deleteButton.addEventListener('click', () => {
+				deletePopup.open(this._id, deleteButton);
+			}, {once: true});
 		}
 	}
 
@@ -82,17 +84,17 @@ export class Card {
 		affirmButton.addEventListener('click', () => this.deletePhotoGridElement(cardId, eventTarget, affirmButton));
 	}
 
-	deletePhotoGridElement(cardId, deleteButton, affirmButton) {
-		api.deletePhotoGridElementFromServer(cardId)
-			.then(() => {
-				affirmButton.removeEventListener('click', () => this.deletePhotoGridElement(cardId, eventTarget, affirmButton));
-				deleteButton.closest('.photo-grid__item').remove();
-				closePopUp(deletePopUp);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	}
+	// deletePhotoGridElement(cardId, deleteButton, affirmButton) {
+	// 	api.deletePhotoGridElementFromServer(cardId)
+	// 		.then(() => {
+	// 			affirmButton.removeEventListener('click', () => this.deletePhotoGridElement(cardId, eventTarget, affirmButton));
+	// 			deleteButton.closest('.photo-grid__item').remove();
+	// 			closePopUp(deletePopUp);
+	// 		})
+	// 		.catch((err) => {
+	// 			console.log(err);
+	// 		});
+	// }
 	addCard(template) {
 		photoGrid.prepend(this._createCard(template));
 	}
