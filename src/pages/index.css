@@ -13,6 +13,7 @@
 
 @import url('../blocks/popupform/popupform.css');
 @import url('../blocks/popupform/__img-close-icon/popupform__img-close-icon.css');
+@import url('../blocks/popupform/__delete-close-icon/popupform__delete-close-icon.css');
 @import url('../blocks/popupform/__text/popupform__text.css');
 @import url('../blocks/popupform/__image/popupform__image.css');
 @import url('../blocks/popupform/__header/popupform__header.css');
@@ -26,6 +27,8 @@
 @import url('../blocks/popupform/__input-error_active/popupform__input-error_active.css');
 @import url('../blocks/popupform/__input-type_error/popupform__input-type_error.css');
 @import url('../blocks/popupform/__img-container/popupform__img-container.css');
+@import url('../blocks/popupform/__edit-image-close-icon/popupform__edit-close-icon.css');
+@import url('../blocks/popupform/__edit-image-close-icon/popupform__edit-close-icon.css');
 
 @import url('../blocks/profile/profile.css');
 @import url('../blocks/profile/__add-button/profile__add-button.css');
@@ -34,6 +37,9 @@
 @import url('../blocks/profile/__edit-button/profile__edit-button.css');
 @import url('../blocks/profile/__subtitle/profile__subtitle.css');
 @import url('../blocks/profile/__title/profile__title.css');
+@import url('../blocks/profile/__hover-mask/profile__hover-mask.css');
+@import url('../blocks/profile/__hover-mask/profile__hover-mask_visible.css');
+@import url('../blocks/profile/__img-container/profile__img-container.css');
 
 @import url('../blocks/logo/logo.css');
 @import url('../blocks/page/page.css');
@@ -52,54 +58,3 @@
 @import url('../blocks/photo-grid/__like-count/photo-grid__like-count.css');
 @import url('../blocks/photo-grid/__like-container/photo-grid__like-container.css');
 @import url('../blocks/photo-grid/photo-grid.css');
-
-.profile__hover-mask{
-	display: none;
-  width: 120px;
-  height: 120px;
-	position: absolute;
-	background-position: 50px 50px;
-	background-image: url('../images/pencil.svg');
-	background-repeat: no-repeat;
-	z-index: 10;
-  background-color: rgba(0,0,0,0.8);
-}
-
-.profile__hover-mask_visible {
-  display: block;
-}
-
-.profile__img-container{
-	position: relative;
-	margin-right: 30px;
-}
-
-.profile__img-container:hover {
-	z-index: 2;
-  cursor: pointer;
-}
-
-.popupform__edit-image-close-icon {
-  width: calc(2.06vw + 30.17px);
-  height: calc(2.06vw + 30.17px);
-	margin-left: calc(15.41vw + 232.66px + 1.458vw + 21.33px);
-  transform: translateY(calc(-1.03vw - 20.08px));
-  z-index: 2;
-  background-color: transparent;
-  border: 0;
-  background-image: url("../images/Close-Icon.svg");
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-@media all and (max-width: 400px) {
-  .popupform__edit-image-close-icon {
-    margin-left: calc(15.41vw + 232.66px - 1.458vw - 21.33px - 5px);
-    margin-bottom: 13.62px;
-  }
-}
-
-.popupform__edit-image-close-icon:hover {
-  opacity: 0.6;
-  cursor: pointer;
-}

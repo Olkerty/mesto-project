@@ -1,10 +1,4 @@
-﻿import {api} from "./script.js";
-
-export const popUpPicture = document.querySelector(`div[name="popupform__picture"]`);
-export const popUpAddForm = document.querySelector(`form[name="popupadd__form-itself"]`);
-
-
-export class Popup {
+﻿export class Popup {
 	constructor(popupSelector) {
 		this._popup = document.querySelector(popupSelector);
 		this.close = this.close.bind(this);
@@ -52,9 +46,12 @@ export class PopUpWithImage extends Popup {
 }
 
 export class PopUpWithForm extends Popup {
-	constructor(selector, callBack) {
+	constructor(selector, callBack, { loadingText, oldText }) {
 		super(selector);
 		this._callBack = callBack;
+		this._loadingText = loadingText;
+		this.oldText = oldText;
+		this.saveButton = this._popup.querySelector('.popupform__save-button');
 	}
 	_getInputValues() {
 		const inputs = Array.from(this._popup.querySelectorAll('input'));
@@ -64,27 +61,26 @@ export class PopUpWithForm extends Popup {
 		});
 		return result;
 	}
-	changeText(text) {
-		const submitButton = this._popup.querySelector('.popupform__save-button');
-		submitButton.textContent = '';
-		submitButton.textContent = text;
-	}
+
 	setEventListeners() {
 		super.setEventListeners();
 		this._popup.addEventListener('submit', (event) => {
+			this.saveButton.textContent = this._loadingText;
 			event.preventDefault();
-			//	this.changeText(text);
 			this._callBack(this._getInputValues());
-		}, {once: true});
+		}, { once: true });
 	}
 }
 
 
 
 export class DeletePopup extends Popup {
-	constructor(selector, callBack) {
+	constructor(selector, callBack, { loadingText, oldText }) {
 		super(selector);
 		this._callBack = callBack;
+		this._loadingText = loadingText;
+		this.oldText = oldText;
+		this.saveButton = this._popup.querySelector('.popupform__save-button');
 	}
 
 	open(id, deleteButton) {
@@ -93,20 +89,11 @@ export class DeletePopup extends Popup {
 	}
 
 	setEventListeners(id, deleteButton) {
+		super.setEventListeners();
 		this._popup.addEventListener('submit', (event) => {
+			this.saveButton.textContent = this._loadingText;
 			event.preventDefault();
 			this._callBack(id, deleteButton);
-		}, {once: true});
+		}, { once: true });
 	}
 }
-
-export const deletePopup = new DeletePopup(`div[name="popupform__affirm"]`, (id, deleteButton) => {
-	api.deletePhotoGridElementFromServer(id)
-		.then(() => {
-			deleteButton.closest('.photo-grid__item').remove();
-			deletePopup.close();
-		})
-		.catch((err) => {
-			console.log(err);
-		});
-});

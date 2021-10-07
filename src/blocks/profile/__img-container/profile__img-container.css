@@ -1,0 +1,9 @@
+.profile__img-container{
+	position: relative;
+	margin-right: 30px;
+}
+
+.profile__img-container:hover {
+	z-index: 2;
+  cursor: pointer;
+}

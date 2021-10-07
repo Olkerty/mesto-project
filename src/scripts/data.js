@@ -1,3 +1,14 @@
+// Script data
+export const profileTitle = document.querySelector('.profile__title');
+export const profileSubTitle = document.querySelector('.profile__subtitle');
+export const profileHoverMask = document.querySelector('.profile__hover-mask');
+export const editButton = document.querySelector('.profile__edit-button');
+export const addButton = document.querySelector('.profile__add-button');
+export const profileFormName = document.querySelector(`input[name='profile__name']`);
+export const profileFormProfession = document.querySelector('input[name = "profile__profession"]');
+export const profileAvatar = document.querySelector('.profile__avatar');
+export const profileAvatarPopUp = document.querySelector('form[name= "popup__avatar-redact-form-itself"]');
+export const template = document.querySelector('#template');
 const config = {
     urlMe: 'https://nomoreparties.co/v1/plus-cohort-1/users/me',
     urlAvatar: 'https://nomoreparties.co/v1/plus-cohort-1/users/me/avatar',
@@ -18,4 +29,5 @@ const validationParameters = {
     errorClass: 'popupform__input-error_active'
 };
 
-export {config, validationParameters}
+
+export { config, validationParameters }

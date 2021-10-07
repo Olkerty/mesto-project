@@ -3,28 +3,43 @@ import '../pages/index.css';
 
 import { Validation } from './validate';
 import { Card } from './cards';
-import {UserInfo} from "./UserInfo";
+import { UserInfo } from "./UserInfo";
 import { Section } from './Section.js';
-import {Api} from './api.js'
-import {config, validationParameters} from "./data";
-import { PopUpWithForm } from './modal.js';
+import { Api } from './api.js'
+import {
+  config,
+  validationParameters,
+  profileTitle,
+  profileSubTitle,
+  profileHoverMask,
+  editButton,
+  addButton,
+  profileFormName,
+  profileFormProfession,
+  profileAvatar,
+  profileAvatarPopUp,
+  template
+} from "./data";
+import { PopUpWithForm, DeletePopup } from './modal.js';
 
+
+const deletePopup = new DeletePopup(`div[name="popupform__affirm"]`, (id, deleteButton) => {
+  api.deletePhotoGridElementFromServer(id)
+    .then(() => {
+      deleteButton.closest('.photo-grid__item').remove();
+      deletePopup.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      deletePopup.saveButton.textContent = deletePopup.oldText;
+    })
+}, { loadingText: 'Удаление...', oldText: 'Да' });
 
 const userInfo = new UserInfo('profile__title', 'profile__subtitle');
 export const api = new Api(config);
-
-export const profileAvatar = document.querySelector('.profile__avatar');
-const profileTitle = document.querySelector('.profile__title');
-const profileSubTitle = document.querySelector('.profile__subtitle');
-const profileHoverMask = document.querySelector('.profile__hover-mask');
-const editButton = document.querySelector('.profile__edit-button');
-const addButton = document.querySelector('.profile__add-button');
-export const profileAvatarPopUp = document.querySelector('form[name= "popup__avatar-redact-form-itself"]');
-export let myId;
-
-const template = document.querySelector('#template');
-
-const imagePopUpCloseIcon = document.querySelector('.popupform__img-close-icon');
+let myId;
 
 profileAvatar.addEventListener('mouseover', function (event) {
   document.querySelector('.profile__hover-mask').classList.add('profile__hover-mask_visible');
@@ -48,8 +63,6 @@ Promise.all([
       renderer: function (item) {
         let isLiked = false;
         let cardIsMine = false;
-        isLiked = false;
-        cardIsMine = false;
         item.likes.forEach(function (it) {
           if (it._id == myId) {
             isLiked = true;
@@ -58,9 +71,9 @@ Promise.all([
         if (item.owner._id == myId) {
           cardIsMine = true;
         }
-        console.log(values[1])
+        const photoGrid = document.querySelector(this.selector);
         const card = new Card(item, isLiked, cardIsMine);
-        card.addCard(template);
+        card.addCard(template, photoGrid, deletePopup);
       }
     }, '.photo-grid');
     initialCardSection.renderItems();
@@ -68,16 +81,12 @@ Promise.all([
   .catch((err) => {
     console.log(err);
   });
-imagePopUpCloseIcon.addEventListener('click', () => closePopUp(popUpPicture));
 
 const formList = Array.from(document.forms);
 formList.forEach((item) => {
   const newValidity = new Validation(validationParameters, item);
   newValidity.enableValidation();
 });
-
-const profileFormName = document.querySelector(`input[name='profile__name']`);
-const profileFormProfession = document.querySelector('input[name = "profile__profession"]');
 
 
 const addPopup = new PopUpWithForm('div[name = "popupadd"]', ({ popupadd__image_name, popupadd__link }) => {
@@ -87,51 +96,54 @@ const addPopup = new PopUpWithForm('div[name = "popupadd"]', ({ popupadd__image_
         items: [],
         renderer: function (item) {
           const card = new Card(item, false, true);
-          card.addCard(template);
+          const photoGrid = document.querySelector(this.selector);
+          card.addCard(template, photoGrid, deletePopup);
         }
       }, '.photo-grid');
       initialCardSection.addItem(ret);
-        addPopup._popup.querySelector('.popupform__form-itself').reset();
-      /*
-      const submitButton = addPopup.querySelector('.popupform__save-button');
-      submitButton.classList.add(inactiveButtonClass);
-      submitButton.disabled = true;
-      */
+      addPopup._popup.querySelector('.popupform__form-itself').reset();
       addPopup.close();
     })
     .catch((err) => {
       console.log(err);
     })
-  //  .finally(() => changeText('Создать', popup));
+    .finally(() => addPopup.saveButton.textContent = addPopup.oldText)
+}, { loadingText: 'Создание...', oldText: 'Создать' });
+addButton.addEventListener('click', () => {
+  addPopup.open()
+  addPopup.saveButton.classList.add('popupform__save-button_inactive');
 });
-addButton.addEventListener('click', () => { addPopup.open() });
 
 const editProfileForm = new PopUpWithForm('div[name="popupform__edit-profile"]', ({ profile__name, profile__profession }) => {
-    userInfo.setUserInfo(profile__name, profile__profession)
-        .then(() => {
-            editProfileForm.close();
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-});
+  userInfo.setUserInfo(profile__name, profile__profession)
+    .then(() => {
+      editProfileForm.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => editProfileForm.saveButton.textContent = editProfileForm.oldText)
+}, { loadingText: 'Сохранение...', oldText: 'Сохранить' });
 editButton.addEventListener('click', () => {
-    profileFormName.value = profileTitle.textContent;
-    profileFormProfession.value = profileSubTitle.textContent;
-    editProfileForm.open();
+  profileFormName.value = profileTitle.textContent;
+  profileFormProfession.value = profileSubTitle.textContent;
+  editProfileForm.open();
+  editProfileForm.saveButton.classList.add('popupform__save-button_inactive');
 });
 
-const changeAvatarForm = new PopUpWithForm('div[name="popupform__avatar-redact"]', ({popup__avatar_redact_link}) => {
-    api.submitAvatarToServer(popup__avatar_redact_link)
-        .then((response) => {
-            profileAvatar.src = response.avatar;
-            profileAvatarPopUp.reset();
-            changeAvatarForm.close();
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-});
+const changeAvatarForm = new PopUpWithForm('div[name="popupform__avatar-redact"]', ({ popup__avatar_redact_link }) => {
+  api.submitAvatarToServer(popup__avatar_redact_link)
+    .then((response) => {
+      profileAvatar.src = response.avatar;
+      profileAvatarPopUp.reset();
+      changeAvatarForm.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => changeAvatarForm.saveButton.textContent = changeAvatarForm.oldText)
+}, { loadingText: 'Сохранение...', oldText: 'Сохранить' });
 profileHoverMask.addEventListener('click', () => {
-    changeAvatarForm.open()
+  changeAvatarForm.open()
+  changeAvatarForm.saveButton.classList.add('popupform__save-button_inactive');
 });
