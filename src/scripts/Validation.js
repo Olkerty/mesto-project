@@ -24,6 +24,10 @@
 				this._toggleButtonState(inputList, submitButton);
 			});
 		});
+		this._form.addEventListener('submit', () => {
+			submitButton.classList.add(this._inactiveButtonClass);
+			submitButton.disabled = true;
+		})
 	}
 
 	_toggleButtonState(inputList, button) {

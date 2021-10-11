@@ -1,13 +1,11 @@
 export class Api {
-	constructor({urlMe, urlAvatar, urlCards, contentHeader, tokenHeaders}) {
-		this._urlMe = urlMe;
-		this._urlAvatar = urlAvatar;
-		this._urlCards = urlCards;
+	constructor({url, contentHeader, tokenHeaders}) {
+		this._url = url;
 		this._contentHeader = contentHeader;
 		this._tokenHeaders = tokenHeaders;
 	}
 
-	getResponseData(data) {
+	_getResponseData(data) {
 		if (data.ok) {
 			return data.json();
 		}
@@ -15,21 +13,21 @@ export class Api {
 	}
 
 	loadAvatar() {
-		return fetch(this._urlMe, {
+		return fetch(`${this._url}/users/me`, {
 			headers: this._tokenHeaders
 		})
-			.then(this.getResponseData);
+			.then(this._getResponseData);
 	}
 
 	loadCards() {
-		return fetch(this._urlCards, {
+		return fetch(`${this._url}/cards`, {
 			headers: this._tokenHeaders
 		})
-			.then(this.getResponseData);
+			.then(this._getResponseData);
 	}
 
 	submitEditFormToServer(name, about) {
-		return fetch(this._urlMe, {
+		return fetch(`${this._url}/users/me`, {
 			method: 'PATCH',
 			headers: this._contentHeader,
 			body: JSON.stringify({
@@ -37,11 +35,11 @@ export class Api {
 				about: about
 			})
 		})
-			.then(this.getResponseData);
+			.then(this._getResponseData);
 	}
 
 	submitAddFormToServer(name, link) {
-		return fetch(this._urlCards, {
+		return fetch(`${this._url}/cards`, {
 			method: 'POST',
 			headers: this._contentHeader,
 			body: JSON.stringify({
@@ -49,33 +47,33 @@ export class Api {
 				link: link
 			})
 		})
-			.then(this.getResponseData);
+			.then(this._getResponseData);
 	}
 
 	submitAvatarToServer(avatar) {
-		return fetch(this._urlAvatar, {
+		return fetch(`${this._url}/users/me/avatar`, {
 			method: 'PATCH',
 			headers: this._contentHeader,
 			body: JSON.stringify({
 				avatar: avatar,
 			})
 		})
-			.then(this.getResponseData);
+			.then(this._getResponseData);
 	}
 
 	toggleLikeAtServer(method, cardId) {
-		return fetch(`https://nomoreparties.co/v1/plus-cohort-1/cards/likes/${cardId}`, {
+		return fetch(`${this._url}/cards/likes/${cardId}`, {
 			method: method,
 			headers: this._contentHeader
 		})
-			.then(this.getResponseData);
+			.then(this._getResponseData);
 	}
 
 	deletePhotoGridElementFromServer(cardId) {
-		return fetch(`https://nomoreparties.co/v1/plus-cohort-1/cards/${cardId}`, {
+		return fetch(`${this._url}/cards/${cardId}`, {
 			method: 'DELETE',
 			headers: this._contentHeader
 		})
-			.then(this.getResponseData);
+			.then(this._getResponseData);
 	}
 }
