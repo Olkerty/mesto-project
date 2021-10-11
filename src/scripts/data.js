@@ -10,9 +10,7 @@ export const profileAvatar = document.querySelector('.profile__avatar');
 export const profileAvatarPopUp = document.querySelector('form[name= "popup__avatar-redact-form-itself"]');
 export const template = document.querySelector('#template');
 const config = {
-    urlMe: 'https://nomoreparties.co/v1/plus-cohort-1/users/me',
-    urlAvatar: 'https://nomoreparties.co/v1/plus-cohort-1/users/me/avatar',
-    urlCards: 'https://nomoreparties.co/v1/plus-cohort-1/cards',
+    url: 'https://nomoreparties.co/v1/plus-cohort-1',
     contentHeader: {
         authorization: '18ac5fe7-c9dd-44de-b0c4-3e05d66a3a3c',
         'Content-Type': 'application/json'

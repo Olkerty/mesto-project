@@ -1,15 +1,13 @@
-﻿import { api } from "./script.js";
-
-import { PopUpWithImage } from "./modal";
-
-export class Card {
-	constructor({ link, name, likes, _id }, isLiked, cardIsMine) {
+﻿export class Card {
+	constructor({ link, name, likes, _id }, isLiked, cardIsMine, popupWithImg, api) {
 		this._link = link;
 		this._name = name;
 		this._likes = likes;
 		this._id = _id;
 		this._isLiked = isLiked;
 		this._cardIsMine = cardIsMine;
+		this._popupWithImg = popupWithImg;
+		this._api = api;
 	}
 
 	createCard(template, deletePopup) {
@@ -32,8 +30,7 @@ export class Card {
 	}
 
 	_setEventListners(cardItem, deletePopup) {
-		const pictureOnCard = new PopUpWithImage(`div[name="popupform__picture"]`);
-		this.pictureOnCard.addEventListener('click', () => { pictureOnCard.open(this._name, this._link) });
+		this.pictureOnCard.addEventListener('click', () => { this._popupWithImg.open(this._name, this._link) });
 		this.likeButton.addEventListener('click', () => this._switchLikeIcon(event.target, this._id));
 		if (this._cardIsMine) {
 			const deleteButton = cardItem.querySelector('.photo-grid__delete');
@@ -48,13 +45,13 @@ export class Card {
 		button.classList.toggle('photo-grid__like_liked');
 		const countElement = button.parentElement.querySelector('.photo-grid__like-count');
 		if (Array.from(button.classList).includes('photo-grid__like_liked')) {
-			api.toggleLikeAtServer('PUT', cardId)
+			this._api.toggleLikeAtServer('PUT', cardId)
 				.catch((err) => {
 					console.log(err);
 				});
 			countElement.textContent = +countElement.textContent + 1;
 		} else {
-			api.toggleLikeAtServer('DELETE', cardId)
+			this._api.toggleLikeAtServer('DELETE', cardId)
 				.catch((err) => {
 					console.log(err);
 				});

@@ -1,11 +1,11 @@
 ﻿// JavaScript source code
 import '../pages/index.css';
 
-import { Validation } from './validate';
-import { Card } from './cards';
+import { Validation } from './Validation';
+import { Card } from './Сard';
 import { UserInfo } from "./UserInfo";
 import { Section } from './Section.js';
-import { Api } from './api.js'
+import { Api } from './Api.js'
 import {
   config,
   validationParameters,
@@ -20,8 +20,15 @@ import {
   profileAvatarPopUp,
   template
 } from "./data";
-import { PopUpWithForm, DeletePopup } from './modal.js';
+import {DeletePopup} from './DeletePopup';
+import {PopUpWithImage} from "./PopUpWithImage";
+import {PopUpWithForm} from "./PopUpWithForm";
 
+export const api = new Api(config);
+let initialCardSection;
+
+const popUpWithImage = new PopUpWithImage(`div[name="popupform__picture"]`);
+popUpWithImage.setEventListeners();
 
 const deletePopup = new DeletePopup(`div[name="popupform__affirm"]`, (id, deleteButton) => {
   api.deletePhotoGridElementFromServer(id)
@@ -37,8 +44,9 @@ const deletePopup = new DeletePopup(`div[name="popupform__affirm"]`, (id, delete
     })
 }, { loadingText: 'Удаление...', oldText: 'Да' });
 
-const userInfo = new UserInfo('profile__title', 'profile__subtitle');
-export const api = new Api(config);
+deletePopup.setEventListeners();
+
+const userInfo = new UserInfo('profile__title', 'profile__subtitle', api);
 let myId;
 
 profileAvatar.addEventListener('mouseover', function (event) {
@@ -48,32 +56,36 @@ profileHoverMask.addEventListener('mouseout', function (event) {
   document.querySelector('.profile__hover-mask').classList.remove('profile__hover-mask_visible');
 });
 
+const renderCard = (item, selector) => {
+    let isLiked = false;
+    let cardIsMine = false;
+    item.likes.forEach(function (it) {
+        if (it._id === myId) {
+            isLiked = true;
+        }
+    });
+    if (item.owner._id === myId) {
+        cardIsMine = true;
+    }
+    const photoGrid = document.querySelector(selector);
+    const card = new Card(item, isLiked, cardIsMine, popUpWithImage, api);
+    card.addCard(template, photoGrid, deletePopup);
+};
+
 
 Promise.all([
   userInfo.getUserInfo(),
   api.loadCards()
 ])
-  .then((values) => {
-    profileTitle.textContent = values[0].name;
-    profileSubTitle.textContent = values[0].about;
-    profileAvatar.src = values[0].avatar;
-    myId = values[0]._id;
-    const initialCardSection = new Section({
-      items: values[1].reverse(),
+  .then(([profile, cards]) => {
+    profileTitle.textContent = profile.name;
+    profileSubTitle.textContent = profile.about;
+    profileAvatar.src = profile.avatar;
+    myId = profile._id;
+    initialCardSection = new Section({
+      items: cards.reverse(),
       renderer: function (item) {
-        let isLiked = false;
-        let cardIsMine = false;
-        item.likes.forEach(function (it) {
-          if (it._id == myId) {
-            isLiked = true;
-          }
-        });
-        if (item.owner._id == myId) {
-          cardIsMine = true;
-        }
-        const photoGrid = document.querySelector(this.selector);
-        const card = new Card(item, isLiked, cardIsMine);
-        card.addCard(template, photoGrid, deletePopup);
+        renderCard(item, this.selector);
       }
     }, '.photo-grid');
     initialCardSection.renderItems();
@@ -82,7 +94,8 @@ Promise.all([
     console.log(err);
   });
 
-const formList = Array.from(document.forms);
+const formList = Array.from(document.querySelectorAll('.popupform__form-itself'));
+
 formList.forEach((item) => {
   const newValidity = new Validation(validationParameters, item);
   newValidity.enableValidation();
@@ -92,16 +105,8 @@ formList.forEach((item) => {
 const addPopup = new PopUpWithForm('div[name = "popupadd"]', ({ popupadd__image_name, popupadd__link }) => {
   api.submitAddFormToServer(popupadd__image_name, popupadd__link)
     .then((ret) => {
-      const initialCardSection = new Section({
-        items: [],
-        renderer: function (item) {
-          const card = new Card(item, false, true);
-          const photoGrid = document.querySelector(this.selector);
-          card.addCard(template, photoGrid, deletePopup);
-        }
-      }, '.photo-grid');
       initialCardSection.addItem(ret);
-      addPopup._popup.querySelector('.popupform__form-itself').reset();
+      addPopup.popup.querySelector('.popupform__form-itself').reset();
       addPopup.close();
     })
     .catch((err) => {
@@ -109,9 +114,10 @@ const addPopup = new PopUpWithForm('div[name = "popupadd"]', ({ popupadd__image_
     })
     .finally(() => addPopup.saveButton.textContent = addPopup.oldText)
 }, { loadingText: 'Создание...', oldText: 'Создать' });
+addPopup.setEventListeners();
+
 addButton.addEventListener('click', () => {
-  addPopup.open()
-  addPopup.saveButton.classList.add('popupform__save-button_inactive');
+  addPopup.open();
 });
 
 const editProfileForm = new PopUpWithForm('div[name="popupform__edit-profile"]', ({ profile__name, profile__profession }) => {
@@ -124,12 +130,14 @@ const editProfileForm = new PopUpWithForm('div[name="popupform__edit-profile"]',
     })
     .finally(() => editProfileForm.saveButton.textContent = editProfileForm.oldText)
 }, { loadingText: 'Сохранение...', oldText: 'Сохранить' });
+
 editButton.addEventListener('click', () => {
   profileFormName.value = profileTitle.textContent;
   profileFormProfession.value = profileSubTitle.textContent;
   editProfileForm.open();
-  editProfileForm.saveButton.classList.add('popupform__save-button_inactive');
 });
+
+editProfileForm.setEventListeners();
 
 const changeAvatarForm = new PopUpWithForm('div[name="popupform__avatar-redact"]', ({ popup__avatar_redact_link }) => {
   api.submitAvatarToServer(popup__avatar_redact_link)
@@ -143,7 +151,10 @@ const changeAvatarForm = new PopUpWithForm('div[name="popupform__avatar-redact"]
     })
     .finally(() => changeAvatarForm.saveButton.textContent = changeAvatarForm.oldText)
 }, { loadingText: 'Сохранение...', oldText: 'Сохранить' });
+
 profileHoverMask.addEventListener('click', () => {
-  changeAvatarForm.open()
-  changeAvatarForm.saveButton.classList.add('popupform__save-button_inactive');
+  changeAvatarForm.open();
+  //changeAvatarForm.saveButton.classList.add('popupform__save-button_inactive');
 });
+
+changeAvatarForm.setEventListeners();
