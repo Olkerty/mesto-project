@@ -1,7 +1,7 @@
-import {Popup} from "./Popup";
+import { Popup } from "./Popup";
 
 export class PopUpWithImage extends Popup {
-    constructor (popupSelector) {
+    constructor(popupSelector) {
         super(popupSelector);
         this._src = this.popup.querySelector(".popupform__image");
         this._alt = this.popup.querySelector(".popupform__image");

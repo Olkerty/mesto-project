@@ -1,5 +1,5 @@
 export class Api {
-	constructor({url, contentHeader, tokenHeaders}) {
+	constructor({ url, contentHeader, tokenHeaders }) {
 		this._url = url;
 		this._contentHeader = contentHeader;
 		this._tokenHeaders = tokenHeaders;

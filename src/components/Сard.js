@@ -1,12 +1,12 @@
 ﻿export class Card {
-	constructor({ link, name, likes, _id }, isLiked, cardIsMine, popupWithImg, api) {
+	constructor({ link, name, likes, _id }, isLiked, cardIsMine, handleOnImageClick, api) {
 		this._link = link;
 		this._name = name;
 		this._likes = likes;
 		this._id = _id;
 		this._isLiked = isLiked;
 		this._cardIsMine = cardIsMine;
-		this._popupWithImg = popupWithImg;
+		this._handleOnImageClick = handleOnImageClick;
 		this._api = api;
 	}
 
@@ -30,7 +30,9 @@
 	}
 
 	_setEventListners(cardItem, deletePopup) {
-		this.pictureOnCard.addEventListener('click', () => { this._popupWithImg.open(this._name, this._link) });
+		this.pictureOnCard.addEventListener('click', () => {
+			this._handleOnImageClick(this._name, this._link);
+		});
 		this.likeButton.addEventListener('click', () => this._switchLikeIcon(event.target, this._id));
 		if (this._cardIsMine) {
 			const deleteButton = cardItem.querySelector('.photo-grid__delete');
