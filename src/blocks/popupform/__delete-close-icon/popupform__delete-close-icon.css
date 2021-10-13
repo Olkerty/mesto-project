@@ -1,0 +1,21 @@
+.popupform__delete-close-icon {
+  width: calc(2.06vw + 30.17px);
+  height: calc(2.06vw + 30.17px);
+  /*
+  margin-left: calc(15.41vw + 232.66px + 1.458vw + 21.33px);
+  transform: translateY(calc(-1.03vw - 20.08px));
+        */
+  z-index: 2;
+  background-color: transparent;
+  border: 0;
+  background-image: url("../../../images/Close-Icon.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  align-self: flex-end;
+  transform: translate(calc(-50vw+2.06vw+30.17px+7.7vw + 116.33px),-20px);
+}
+
+.popupform__delete-close-icon:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}

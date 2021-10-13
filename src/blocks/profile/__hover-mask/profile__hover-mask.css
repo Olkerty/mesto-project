@@ -1,0 +1,11 @@
+.profile__hover-mask{
+	display: none;
+  width: 120px;
+  height: 120px;
+	position: absolute;
+	background-position: 50px 50px;
+	background-image: url('../../../images/pencil.svg');
+	background-repeat: no-repeat;
+	z-index: 10;
+  background-color: rgba(0,0,0,0.8);
+}
